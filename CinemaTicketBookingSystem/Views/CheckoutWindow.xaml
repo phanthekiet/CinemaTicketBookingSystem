@@ -178,7 +178,7 @@
 
                                 <!-- Customer Name -->
                                 <StackPanel Grid.Column="0">
-                                    <TextBlock Text="HỌ VÀ TÊN" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextSecondary}" Margin="0,0,0,6"/>
+                                    <TextBlock Text="HỌ VÀ TÊN *" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextSecondary}" Margin="0,0,0,6"/>
                                     <Border Background="{StaticResource SurfaceCard}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="8" Height="40">
                                         <TextBox x:Name="txtBuyerName" Background="Transparent" BorderThickness="0" Foreground="White" VerticalAlignment="Center" FontSize="13" Margin="12,0"/>
                                     </Border>
@@ -186,7 +186,7 @@
 
                                 <!-- Customer Phone -->
                                 <StackPanel Grid.Column="2">
-                                    <TextBlock Text="SỐ ĐIỆN THOẠI" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextSecondary}" Margin="0,0,0,6"/>
+                                    <TextBlock Text="SỐ ĐIỆN THOẠI *" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextSecondary}" Margin="0,0,0,6"/>
                                     <Border Background="{StaticResource SurfaceCard}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="8" Height="40">
                                         <TextBox x:Name="txtBuyerPhone" Background="Transparent" BorderThickness="0" Foreground="White" VerticalAlignment="Center" FontSize="13" Margin="12,0"/>
                                     </Border>

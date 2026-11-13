@@ -1,4 +1,4 @@
-﻿USE master;
+USE master;
 GO
 
 IF EXISTS (SELECT name FROM sys.databases WHERE name = N'CinemaManagementDB')
@@ -14,7 +14,7 @@ USE CinemaManagementDB;
 GO
 
 -- ==========================================
--- 1. B?ng User (Phân quy?n Admin & Customer)
+-- 1. Bảng User (Phân quyền Admin & Customer & Staff)
 -- ==========================================
 CREATE TABLE [User] (
     UserId INT IDENTITY(1,1) PRIMARY KEY,
@@ -22,12 +22,12 @@ CREATE TABLE [User] (
     [Password] VARCHAR(100) NOT NULL,
     FullName NVARCHAR(100) NOT NULL,
     Phone VARCHAR(15),
-    [Role] VARCHAR(20) NOT NULL DEFAULT 'Customer', -- 'Admin' ho?c 'Customer'
-    [Status] BIT NOT NULL DEFAULT 1 -- 1: Ho?t d?ng, 0: Khóa
+    [Role] VARCHAR(20) NOT NULL DEFAULT 'Customer', -- 'Admin', 'Staff' hoặc 'Customer'
+    [Status] BIT NOT NULL DEFAULT 1 -- 1: Hoạt động, 0: Khóa
 );
 
 -- ==========================================
--- 2. B?ng Genre (Th? lo?i phim)
+-- 2. Bảng Genre (Thể loại phim)
 -- ==========================================
 CREATE TABLE Genre (
     GenreId INT IDENTITY(1,1) PRIMARY KEY,
@@ -35,32 +35,32 @@ CREATE TABLE Genre (
 );
 
 -- ==========================================
--- 3. B?ng Movie (Phim)
+-- 3. Bảng Movie (Phim)
 -- ==========================================
 CREATE TABLE Movie (
     MovieId INT IDENTITY(1,1) PRIMARY KEY,
     Title NVARCHAR(150) NOT NULL,
     GenreId INT NOT NULL FOREIGN KEY REFERENCES Genre(GenreId),
-    Duration INT NOT NULL, -- Th?i lu?ng tính b?ng phút (VD: 120)
+    Duration INT NOT NULL, -- Thời lượng tính bằng phút (VD: 120)
     ReleaseDate DATE NOT NULL,
     PosterPath NVARCHAR(255),
     AgeRating VARCHAR(10) DEFAULT 'P', -- P, T13, T16, T18
     [Description] NVARCHAR(500),
-    [Status] BIT NOT NULL DEFAULT 1 -- 1: Ðang chi?u, 0: Ng?ng chi?u
+    [Status] BIT NOT NULL DEFAULT 1 -- 1: Đang chiếu, 0: Ngừng chiếu
 );
 
 -- ==========================================
--- 4. B?ng Room (Phòng chi?u)
+-- 4. Bảng Room (Phòng chiếu)
 -- ==========================================
 CREATE TABLE Room (
     RoomId INT IDENTITY(1,1) PRIMARY KEY,
     RoomName NVARCHAR(50) NOT NULL,
-    TotalSeats INT NOT NULL DEFAULT 40, -- M?c d?nh 40 gh? (5 hàng A-E x 8 c?t 1-8)
+    TotalSeats INT NOT NULL DEFAULT 40, -- Mặc định 40 ghế (5 hàng A-E x 8 cột 1-8)
     [Status] BIT NOT NULL DEFAULT 1
 );
 
 -- ==========================================
--- 5. B?ng Showtime (Su?t chi?u)
+-- 5. Bảng Showtime (Suất chiếu)
 -- ==========================================
 CREATE TABLE Showtime (
     ShowtimeId INT IDENTITY(1,1) PRIMARY KEY,
@@ -68,12 +68,12 @@ CREATE TABLE Showtime (
     RoomId INT NOT NULL FOREIGN KEY REFERENCES Room(RoomId),
     StartTime DATETIME NOT NULL,
     EndTime DATETIME NOT NULL,
-    BasePrice DECIMAL(18,0) NOT NULL,
-    [Status] BIT NOT NULL DEFAULT 1
+    BasePrice DECIMAL(18,0) NOT NULL DEFAULT 75000, -- Giá vé cơ bản
+    [Status] BIT NOT NULL DEFAULT 1 -- 1: Hoạt động, 0: Đã hủy
 );
 
 -- ==========================================
--- 6. B?ng FoodAndDrink (B?p nu?c & Combo)
+-- 6. Bảng FoodAndDrink (Bắp nước & Combo)
 -- ==========================================
 CREATE TABLE FoodAndDrink (
     FoodId INT IDENTITY(1,1) PRIMARY KEY,
@@ -84,7 +84,7 @@ CREATE TABLE FoodAndDrink (
 );
 
 -- ==========================================
--- 7. B?ng Booking (Ðon d?t vé / Hóa don t?ng)
+-- 7. Bảng Booking (Đơn đặt vé / Hóa đơn tổng)
 -- ==========================================
 CREATE TABLE Booking (
     BookingId INT IDENTITY(1,1) PRIMARY KEY,
@@ -93,12 +93,12 @@ CREATE TABLE Booking (
     BookingDate DATETIME NOT NULL DEFAULT GETDATE(),
     TotalAmount DECIMAL(18,0) NOT NULL,
     QRCodeString VARCHAR(150) UNIQUE NOT NULL,
-    PaymentMethod NVARCHAR(50) DEFAULT 'VNPAY', -- Chu?i mã QR d?nh danh c?a vé
-    IsCheckedIn BIT NOT NULL DEFAULT 0 -- 0: Chua soát vé, 1: Ðã soát vé
+    PaymentMethod NVARCHAR(50) DEFAULT 'VNPAY', -- Chuỗi mã QR định danh của vé
+    IsCheckedIn BIT NOT NULL DEFAULT 0 -- 0: Chưa soát vé, 1: Đã soát vé
 );
 
 -- ==========================================
--- 8. B?ng Ticket (Chi ti?t t?ng gh? dã d?t)
+-- 8. Bảng Ticket (Chi tiết từng ghế đã đặt)
 -- ==========================================
 CREATE TABLE Ticket (
     TicketId INT IDENTITY(1,1) PRIMARY KEY,
@@ -108,74 +108,59 @@ CREATE TABLE Ticket (
     SeatPrice DECIMAL(18,0) NOT NULL
 );
 
+-- Ràng buộc duy nhất chống Race Condition (Double-Booking)
+CREATE UNIQUE NONCLUSTERED INDEX UQ_Ticket_Showtime_Seat ON Ticket(ShowtimeId, SeatCode);
+
 -- ==========================================
--- 9. B?ng BookingFood (Chi ti?t b?p nu?c di kèm don vé)
+-- 9. Bảng BookingFood (Chi tiết bắp nước đi kèm đơn vé)
 -- ==========================================
 CREATE TABLE BookingFood (
     BookingFoodId INT IDENTITY(1,1) PRIMARY KEY,
     BookingId INT NOT NULL FOREIGN KEY REFERENCES Booking(BookingId),
     FoodId INT NOT NULL FOREIGN KEY REFERENCES FoodAndDrink(FoodId),
     Quantity INT NOT NULL DEFAULT 1,
-    UnitPrice DECIMAL(18,0) NOT NULL -- Giá t?i th?i di?m mua
+    UnitPrice DECIMAL(18,0) NOT NULL -- Giá tại thời điểm mua
 );
 GO
 
 -- ======================================================================
--- CHÈN D? LI?U M?U (INSERT SAMPLE DATA) Ð? C? NHÓM CÓ DATA TEST NGAY
+-- CHÈN DỮ LIỆU MẪU (INSERT SAMPLE DATA)
 -- ======================================================================
 
--- 1. D? li?u User (G?m 1 Admin và 2 Customer)
+-- 1. Dữ liệu User
 INSERT INTO [User] (Username, [Password], FullName, Phone, [Role]) VALUES
-('admin', '123', N'Qu?n Tr? Viên H? Th?ng', '0901234567', 'Admin'),
-('customer1', '123', N'Nguy?n Van Khách', '0909888777', 'Customer'),
+('admin', '123', N'Quản Trị Viên Hệ Thống', '0901234567', 'Admin'),
 ('staff1', '123', N'Nguyễn Văn Soát Vé', '0903334455', 'Staff'),
-('customer2', '123', N'Tr?n Th? Mua Vé', '0912345678', 'Customer');
+('customer1', '123', N'Nguyễn Văn Khách', '0909888777', 'Customer');
 
--- 2. D? li?u Th? lo?i
+-- 2. Dữ liệu Thể loại
 INSERT INTO Genre (GenreName) VALUES 
-(N'Hành d?ng'), 
-(N'Kinh d?'), 
-(N'Ho?t hình'), 
-(N'Tình c?m'),
+(N'Hành động'), 
+(N'Kinh dị'), 
+(N'Hoạt hình'), 
+(N'Tình cảm'),
 (N'Trinh thám');
 
--- 3. D? li?u Phim
+-- 3. Dữ liệu Phim
 INSERT INTO Movie (Title, GenreId, Duration, ReleaseDate, PosterPath, AgeRating, [Description]) VALUES
-(N'L?t M?t 8: Vòng Xoáy', 1, 125, '2026-04-30', 'latmat8.jpg', 'T16', N'Phim hành d?ng k?ch tính Vi?t Nam'),
-(N'Thám T? L?ng Danh Conan: Movie 28', 5, 110, '2026-07-15', 'conan28.jpg', 'T13', N'Cu?c d?i d?u ngh?t th? c?a Conan và t? ch?c Áo Ðen'),
-(N'Ám ?nh Kinh Hoàng 4', 2, 105, '2026-09-10', 'conjuring4.jpg', 'T18', N'H? so tâm linh rùng r?n ti?p theo c?a v? ch?ng Warren'),
-(N'Doraemon: B?n Giao Hu?ng Ð?a C?u', 3, 115, '2026-05-25', 'doraemon.jpg', 'P', N'Hành trình âm nh?c gi?i c?u th? gi?i c?a nhóm b?n Nobita');
+(N'Lật Mặt 8: Vòng Tay Nắng', 1, 125, '2026-04-30', 'latmat8.jpg', 'T16', N'Phim hành động kịch tính Việt Nam'),
+(N'Thám Tử Lừng Danh Conan: Movie 28', 5, 110, '2026-07-15', 'conan28.jpg', 'T13', N'Cuộc đối đầu nghẹt thở của Conan và tổ chức Áo Đen'),
+(N'Ám Ảnh Kinh Hoàng 4', 2, 105, '2026-09-10', 'conjuring4.jpg', 'T18', N'Hồ sơ tâm linh rùng rợn tiếp theo của vợ chồng Warren'),
+(N'Doraemon: Bản Giao Hưởng Địa Cầu', 3, 115, '2026-05-25', 'doraemon.jpg', 'P', N'Hành trình âm nhạc giải cứu thế giới của nhóm bạn Nobita'),
+(N'Chị Chị Em Em 3', 2, 110, '2026-10-30', 'chichiemem3.jpg', 'T18', N'Drama kịch tính hấp dẫn'),
+(N'Obsession', 2, 120, '2026-11-02', 'obsession.jpg', 'T18', N'Phim kinh dị hồi hộp kịch tính'),
+(N'Chị Xíu Anh Híu', 4, 105, '2026-10-29', 'chixiu.jpg', 'T13', N'Hài hước tâm lý gia đình');
 
--- 4. D? li?u Phòng chi?u
+-- 4. Dữ liệu Phòng chiếu
 INSERT INTO Room (RoomName, TotalSeats) VALUES 
 (N'Phòng 01 (Standard)', 40), 
 (N'Phòng 02 (IMAX)', 40),
 (N'Phòng 03 (VIP)', 40);
 
--- 5. D? li?u Su?t chi?u
-INSERT INTO Showtime (MovieId, RoomId, StartTime, EndTime, BasePrice) VALUES
-(1, 1, '2026-10-25 18:00:00', '2026-10-25 20:20:00', 85000),
-(1, 2, '2026-10-25 20:30:00', '2026-10-25 22:50:00', 100000),
-(2, 2, '2026-10-25 17:30:00', '2026-10-25 19:35:00', 90000),
-(3, 3, '2026-10-25 21:30:00', '2026-10-25 23:30:00', 110000);
-
--- 6. D? li?u B?p nu?c
+-- 5. Dữ liệu Bắp nước
 INSERT INTO FoodAndDrink (FoodName, Price, Stock) VALUES
-(N'Combo Solo (1 B?p Ng?t + 1 Pepsi)', 65000, 100),
-(N'Combo Couple (1 B?p Phô Mai L?n + 2 Pepsi)', 95000, 80),
-(N'B?p Rang Caramel (Size L)', 50000, 120),
-(N'Nu?c Ng?t Coca-Cola (Size L)', 30000, 150);
-
--- 7. D? li?u Ðon d?t vé m?u (Ð? test s?n màn hình L?ch s? vé & Mã QR)
-INSERT INTO Booking (UserId, ShowtimeId, BookingDate, TotalAmount, QRCodeString, IsCheckedIn) VALUES
-(2, 1, GETDATE(), 235000, 'TICKET-2026-BK001-C4C5', 0);
-
--- 8. D? li?u Gh? dã bán m?u (Gh? C4, C5 c?a Su?t chi?u 1 dã có ngu?i mua)
-INSERT INTO Ticket (BookingId, ShowtimeId, SeatCode, SeatPrice) VALUES
-(1, 1, 'C4', 85000),
-(1, 1, 'C5', 85000);
-
--- 9. D? li?u B?p nu?c kèm theo don vé s? 1
-INSERT INTO BookingFood (BookingId, FoodId, Quantity, UnitPrice) VALUES
-(1, 1, 1, 65000);
+(N'Combo Solo (1 Bắp Ngọt + 1 Pepsi)', 65000, 100),
+(N'Combo Couple (1 Bắp Phô Mai Lớn + 2 Pepsi)', 95000, 80),
+(N'Bắp Rang Caramel (Size L)', 50000, 120),
+(N'Nước Ngọt Coca-Cola (Size L)', 30000, 150);
 GO

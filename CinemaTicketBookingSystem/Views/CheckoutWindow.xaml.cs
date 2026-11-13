@@ -45,19 +45,11 @@ namespace CinemaTicketBookingSystem.Views
 
         private void CheckoutWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            // 1. Prefill Buyer Info
-            if (UserSession.CurrentUser != null)
-            {
-                txtCustomerName.Text = UserSession.CurrentUser.FullName;
-                txtBuyerName.Text = UserSession.CurrentUser.FullName;
-                txtBuyerPhone.Text = UserSession.CurrentUser.Phone ?? string.Empty;
-            }
-            else
-            {
-                txtCustomerName.Text = "Khách vãng lai";
-                txtBuyerName.Text = "Khách vãng lai";
-                txtBuyerPhone.Text = string.Empty;
-            }
+            // 1. Để trống 2 ô họ tên và số điện thoại để người dùng tự nhập
+            txtCustomerName.Text = (UserSession.CurrentUser != null) ? UserSession.CurrentUser.FullName : "Khách vãng lai";
+            txtBuyerName.Text = string.Empty;
+            txtBuyerPhone.Text = string.Empty;
+            txtBuyerName.Focus();
 
             // 2. Load Showtime Details
             try
@@ -360,16 +352,46 @@ namespace CinemaTicketBookingSystem.Views
             var buyerName = txtBuyerName.Text.Trim();
             var buyerPhone = txtBuyerPhone.Text.Trim();
 
-            if (string.IsNullOrWhiteSpace(buyerName))
+            if (string.IsNullOrWhiteSpace(buyerName) && string.IsNullOrWhiteSpace(buyerPhone))
             {
-                CinemaMessageBox.Show("Vui lòng nhập họ và tên người đặt vé!", "Thiếu thông tin", MessageBoxButton.OK, MessageBoxImage.Warning);
+                CinemaMessageBox.Show(
+                    "Quý khách vui lòng nhập đầy đủ Họ và tên cùng Số điện thoại để hệ thống xác nhận và xuất vé điện tử QR Code!",
+                    "Thiếu thông tin người đặt vé",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
                 txtBuyerName.Focus();
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(buyerPhone) || buyerPhone.Length != 10 || !buyerPhone.All(char.IsDigit))
+            if (string.IsNullOrWhiteSpace(buyerName))
             {
-                CinemaMessageBox.Show("Vui lòng nhập đúng số điện thoại gồm 10 chữ số (VD: 0912345678)!", "Số điện thoại không hợp lệ", MessageBoxButton.OK, MessageBoxImage.Warning);
+                CinemaMessageBox.Show(
+                    "Quý khách vui lòng nhập Họ và tên người đặt vé!",
+                    "Thiếu thông tin họ tên",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                txtBuyerName.Focus();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(buyerPhone))
+            {
+                CinemaMessageBox.Show(
+                    "Quý khách vui lòng nhập Số điện thoại để nhận thông tin vé điện tử!",
+                    "Thiếu thông tin số điện thoại",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                txtBuyerPhone.Focus();
+                return;
+            }
+
+            if (buyerPhone.Length != 10 || !buyerPhone.All(char.IsDigit))
+            {
+                CinemaMessageBox.Show(
+                    "Số điện thoại không hợp lệ! Vui lòng nhập đúng 10 chữ số (VD: 0912345678).",
+                    "Số điện thoại không hợp lệ",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
                 txtBuyerPhone.Focus();
                 return;
             }

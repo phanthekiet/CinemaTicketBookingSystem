@@ -4,10 +4,10 @@
              StartupUri="Views/CustomerHomeWindow.xaml">
     <Application.Resources>
         <!-- 1. Bộ font Be Vietnam Pro nhúng trực tiếp kèm fallback Segoe UI -->
-        <FontFamily x:Key="AppFont">pack://application:,,,/Assets/Fonts/#Be Vietnam Pro, Segoe UI, sans-serif</FontFamily>
+        <FontFamily x:Key="AppFont">pack://application:,,,/CinemaTicketBookingSystem;component/Assets/Fonts/#Be Vietnam Pro, pack://application:,,,/Assets/Fonts/#Be Vietnam Pro, ./Assets/Fonts/#Be Vietnam Pro, Be Vietnam Pro, Segoe UI, sans-serif</FontFamily>
 
         <!-- Font Thương Hiệu Điện Ảnh Đặc Biệt (Bebas Neue Display Font) -->
-        <FontFamily x:Key="BrandFont">pack://application:,,,/Assets/Fonts/#Bebas Neue, Impact, Montserrat, Arial Black, sans-serif</FontFamily>
+        <FontFamily x:Key="BrandFont">pack://application:,,,/CinemaTicketBookingSystem;component/Assets/Fonts/#Bebas Neue, pack://application:,,,/Assets/Fonts/#Bebas Neue, ./Assets/Fonts/#Bebas Neue, Bebas Neue, Impact, Montserrat, Arial Black, sans-serif</FontFamily>
 
         <!-- 2. Bảng màu Galaxy Cosmic Cinema Palette (Đẳng cấp điện ảnh vũ trụ) -->
         <SolidColorBrush x:Key="BgDark" Color="#070A12"/>
@@ -49,7 +49,7 @@
             <GradientStop Color="#00070A12" Offset="1.0"/>
         </LinearGradientBrush>
 
-        <!-- 4. Base styles -->
+        <!-- 4. Base styles: Đồng bộ Be Vietnam Pro font cho 100% controls trong toàn bộ dự án -->
         <Style TargetType="{x:Type Window}">
             <Setter Property="FontFamily" Value="{StaticResource AppFont}" />
             <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
@@ -61,6 +61,34 @@
         </Style>
 
         <Style TargetType="{x:Type Control}">
+            <Setter Property="FontFamily" Value="{StaticResource AppFont}" />
+        </Style>
+
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="FontFamily" Value="{StaticResource AppFont}" />
+        </Style>
+
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="FontFamily" Value="{StaticResource AppFont}" />
+        </Style>
+
+        <Style TargetType="{x:Type PasswordBox}">
+            <Setter Property="FontFamily" Value="{StaticResource AppFont}" />
+        </Style>
+
+        <Style TargetType="{x:Type DataGrid}">
+            <Setter Property="FontFamily" Value="{StaticResource AppFont}" />
+        </Style>
+
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="FontFamily" Value="{StaticResource AppFont}" />
+        </Style>
+
+        <Style TargetType="{x:Type RadioButton}">
+            <Setter Property="FontFamily" Value="{StaticResource AppFont}" />
+        </Style>
+
+        <Style TargetType="{x:Type CheckBox}">
             <Setter Property="FontFamily" Value="{StaticResource AppFont}" />
         </Style>
 
@@ -199,6 +227,7 @@
         </ControlTemplate>
 
         <Style TargetType="{x:Type ComboBox}">
+            <Setter Property="FontFamily" Value="{StaticResource AppFont}"/>
             <Setter Property="Background" Value="#131B2E"/>
             <Setter Property="Foreground" Value="#F8FAFC"/>
             <Setter Property="BorderBrush" Value="#1E2B47"/>
