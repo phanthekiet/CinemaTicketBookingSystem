@@ -1,4 +1,4 @@
-USE master;
+﻿USE master;
 GO
 
 IF EXISTS (SELECT name FROM sys.databases WHERE name = N'CinemaManagementDB')
@@ -92,7 +92,8 @@ CREATE TABLE Booking (
     ShowtimeId INT NOT NULL FOREIGN KEY REFERENCES Showtime(ShowtimeId),
     BookingDate DATETIME NOT NULL DEFAULT GETDATE(),
     TotalAmount DECIMAL(18,0) NOT NULL,
-    QRCodeString VARCHAR(150) UNIQUE NOT NULL, -- Chu?i mã QR d?nh danh c?a vé
+    QRCodeString VARCHAR(150) UNIQUE NOT NULL,
+    PaymentMethod NVARCHAR(50) DEFAULT 'VNPAY', -- Chu?i mã QR d?nh danh c?a vé
     IsCheckedIn BIT NOT NULL DEFAULT 0 -- 0: Chua soát vé, 1: Ðã soát vé
 );
 
@@ -127,6 +128,7 @@ GO
 INSERT INTO [User] (Username, [Password], FullName, Phone, [Role]) VALUES
 ('admin', '123', N'Qu?n Tr? Viên H? Th?ng', '0901234567', 'Admin'),
 ('customer1', '123', N'Nguy?n Van Khách', '0909888777', 'Customer'),
+('staff1', '123', N'Nguyễn Văn Soát Vé', '0903334455', 'Staff'),
 ('customer2', '123', N'Tr?n Th? Mua Vé', '0912345678', 'Customer');
 
 -- 2. D? li?u Th? lo?i

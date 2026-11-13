@@ -1,12 +1,368 @@
-﻿<Window x:Class="CinemaTicketBookingSystem.Views.SeatSelectionWindow"
+<Window x:Class="CinemaTicketBookingSystem.Views.SeatSelectionWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CinemaTicketBookingSystem.Views"
         mc:Ignorable="d"
-        Title="SeatSelectionWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="KPID CINEMA - Chọn Suất Chiếu &amp; Sơ Đồ Ghế" 
+        Height="780" Width="1180"
+        MinHeight="680" MinWidth="1000"
+        WindowStartupLocation="CenterScreen"
+        Background="#0E1015"
+        Foreground="#F3F4F6"
+        FontFamily="{StaticResource AppFont}">
+
+    <Window.Resources>
+        <!-- Palette Tokens: Cosmic Galaxy -->
+        <SolidColorBrush x:Key="BgDark" Color="#070A12"/>
+        <SolidColorBrush x:Key="SurfaceDark" Color="#0D1220"/>
+        <SolidColorBrush x:Key="SurfaceCard" Color="#131B2E"/>
+        <SolidColorBrush x:Key="BorderQuiet" Color="#1E2B47"/>
+        <SolidColorBrush x:Key="BorderLight" Color="#2E4069"/>
+        <SolidColorBrush x:Key="AccentRed" Color="#E50914"/>
+        <SolidColorBrush x:Key="AccentRedHover" Color="#F41824"/>
+        <SolidColorBrush x:Key="AccentGold" Color="#F59E0B"/>
+        <SolidColorBrush x:Key="AccentCyan" Color="#06B6D4"/>
+        <SolidColorBrush x:Key="TextSecondary" Color="#94A3B8"/>
+        <SolidColorBrush x:Key="TextMuted" Color="#64748B"/>
+
+        <!-- Primary Action Button Style -->
+        <Style x:Key="PrimaryBtnStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource AccentRed}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="20,12"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource AccentRedHover}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#C00711"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="#374151"/>
+                                <Setter Property="Foreground" Value="#9CA3AF"/>
+                                <Setter Property="Cursor" Value="No"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Ghost Button Style -->
+        <Style x:Key="GhostBtnStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="14,9"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderQuiet}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#1C202C"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource BorderLight}"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Cinema Seat Button Style -->
+        <Style x:Key="SeatButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="46"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="{StaticResource BgDark}">
+        <!-- Galaxy Deep Space Background -->
+        <Image Source="/Assets/galaxy_bg.jpg" Stretch="UniformToFill" Opacity="0.14" IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/> <!-- Header / Movie Info Bar -->
+                <RowDefinition Height="*"/>    <!-- Main Seat Selection & Showtime Layout -->
+                <RowDefinition Height="Auto"/> <!-- Bottom Sticky Action Bar -->
+            </Grid.RowDefinitions>
+
+        <!-- TOP BAR: Brand & Movie Information -->
+        <Border Grid.Row="0" Background="{StaticResource SurfaceDark}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="0,0,0,1" Padding="24,14">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/> <!-- Back button & Brand -->
+                    <ColumnDefinition Width="*"/>    <!-- Movie Details -->
+                    <ColumnDefinition Width="Auto"/> <!-- User Session Status -->
+                </Grid.ColumnDefinitions>
+
+                <!-- Back button & Brand -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button x:Name="btnBack" Content="← Quay lại" Style="{StaticResource GhostBtnStyle}" Margin="0,0,18,0" Click="BtnBack_Click"/>
+                    <Border Width="40" Height="40" CornerRadius="8" Background="#111319" Margin="0,0,10,0" BorderBrush="#2E4069" BorderThickness="1.5">
+                        <Image Source="/Assets/logo.png" Stretch="Uniform" Margin="3"/>
+                    </Border>
+                    <StackPanel VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="KPID" FontFamily="{StaticResource BrandFont}" FontWeight="Bold" FontSize="24" Foreground="{StaticResource AccentRed}" Margin="0,0,5,0"/>
+                            <TextBlock Text="CINEMA" FontFamily="{StaticResource BrandFont}" FontWeight="Bold" FontSize="24" Foreground="White"/>
+                        </StackPanel>
+                        <TextBlock Text="ĐẶT VÉ TRỰC TUYẾN" FontSize="10" Foreground="{StaticResource AccentGold}" FontWeight="Bold"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Movie Info Pill -->
+                <Border Grid.Column="1" Background="{StaticResource SurfaceCard}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="8" Margin="30,0" Padding="14,8" VerticalAlignment="Center">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border x:Name="bdrAgeRating" Background="#C0392B" CornerRadius="4" Padding="6,2" VerticalAlignment="Center" Margin="0,0,12,0">
+                            <TextBlock x:Name="txtAgeRating" Text="T18" FontWeight="Bold" FontSize="12" Foreground="White"/>
+                        </Border>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock x:Name="txtMovieTitle" Text="TÊN PHIM ĐANG CHỌN" FontWeight="Bold" FontSize="15" Foreground="White" TextTrimming="CharacterEllipsis"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                                <TextBlock x:Name="txtMovieGenre" Text="Hành Động, Viễn Tưởng" FontSize="12" Foreground="{StaticResource TextSecondary}"/>
+                                <TextBlock Text=" • " Foreground="{StaticResource TextMuted}" FontSize="12"/>
+                                <TextBlock x:Name="txtMovieDuration" Text="120 phút" FontSize="12" Foreground="{StaticResource TextSecondary}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- User Session / Hotline -->
+                <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <TextBlock x:Name="txtUserGreeting" Text="Xin chào, Khách hàng" FontSize="12" FontWeight="SemiBold" Foreground="White" HorizontalAlignment="Right"/>
+                    <TextBlock Text="Hotline: 1900 8888" FontSize="11" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Right" Margin="0,2,0,0"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- MAIN CONTENT AREA -->
+        <Grid Grid.Row="1" Margin="24,18,24,18">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="340"/> <!-- Left: Showtime & Room Selection -->
+                <ColumnDefinition Width="20"/>  <!-- Gap -->
+                <ColumnDefinition Width="*"/>   <!-- Right: 40-Seat Grid & Screen -->
+            </Grid.ColumnDefinitions>
+
+            <!-- LEFT PANEL: Date & Showtime Selection -->
+            <Border Grid.Column="0" Background="{StaticResource SurfaceDark}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="12" Padding="20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/> <!-- Date Picker Header -->
+                        <RowDefinition Height="Auto"/> <!-- Date Picker Control -->
+                        <RowDefinition Height="Auto"/> <!-- Showtime Header -->
+                        <RowDefinition Height="*"/>    <!-- Showtime List / Chips -->
+                        <RowDefinition Height="Auto"/> <!-- Room / Price Info -->
+                    </Grid.RowDefinitions>
+
+                    <!-- Date Selection Header -->
+                    <TextBlock Grid.Row="0" Text="1. CHỌN NGÀY CHIẾU" FontSize="12" FontWeight="Bold" Foreground="{StaticResource TextSecondary}" Margin="0,0,0,8"/>
+                    
+                    <!-- DatePicker Control -->
+                    <Border Grid.Row="1" Background="{StaticResource SurfaceCard}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="8" Padding="10,6" Margin="0,0,0,20">
+                        <DatePicker x:Name="dpShowDate" Background="Transparent" BorderThickness="0" Foreground="White" SelectedDateChanged="DpShowDate_SelectedDateChanged"/>
+                    </Border>
+
+                    <!-- Showtime Selection Header -->
+                    <TextBlock Grid.Row="2" Text="2. CHỌN SUẤT CHIẾU TRONG NGÀY" FontSize="12" FontWeight="Bold" Foreground="{StaticResource TextSecondary}" Margin="0,0,0,8"/>
+
+                    <!-- Showtime List Scrollable -->
+                    <Border Grid.Row="3" Background="{StaticResource SurfaceCard}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="8" Padding="8" Margin="0,0,0,16">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel x:Name="spShowtimes">
+                                <!-- Dynamic showtime items loaded from C# -->
+                                <TextBlock Text="Đang tải danh sách suất chiếu..." Foreground="{StaticResource TextMuted}" FontSize="12" Margin="10"/>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Border>
+
+                    <!-- Selected Showtime Detail Summary -->
+                    <Border Grid.Row="4" Background="#1C202C" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="8" Padding="14,12">
+                        <StackPanel>
+                            <TextBlock Text="THÔNG TIN SUẤT CHIẾU ĐÃ CHỌN" FontSize="11" FontWeight="Bold" Foreground="{StaticResource AccentGold}" Margin="0,0,0,6"/>
+                            <Grid Margin="0,2">
+                                <TextBlock Text="Phòng chiếu:" FontSize="12" Foreground="{StaticResource TextSecondary}"/>
+                                <TextBlock x:Name="txtSelectedRoom" Text="Chưa chọn" FontSize="12" FontWeight="Bold" Foreground="White" HorizontalAlignment="Right"/>
+                            </Grid>
+                            <Grid Margin="0,2">
+                                <TextBlock Text="Giờ chiếu:" FontSize="12" Foreground="{StaticResource TextSecondary}"/>
+                                <TextBlock x:Name="txtSelectedTime" Text="Chưa chọn" FontSize="12" FontWeight="Bold" Foreground="White" HorizontalAlignment="Right"/>
+                            </Grid>
+                            <Grid Margin="0,2">
+                                <TextBlock Text="Giá vé cơ bản:" FontSize="12" Foreground="{StaticResource TextSecondary}"/>
+                                <TextBlock x:Name="txtSelectedBasePrice" Text="0 đ" FontSize="12" FontWeight="Bold" Foreground="{StaticResource AccentGold}" HorizontalAlignment="Right"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- RIGHT PANEL: Cinema Screen & 40-Seat UniformGrid -->
+            <Border Grid.Column="2" Background="{StaticResource SurfaceDark}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="12" Padding="24,18">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/> <!-- Cinema Screen Curved Bar -->
+                        <RowDefinition Height="*"/>    <!-- 40 Seats UniformGrid -->
+                        <RowDefinition Height="Auto"/> <!-- Seat Status Legend -->
+                    </Grid.RowDefinitions>
+
+                    <!-- TOP SCREEN VISUAL: Curved IMAX Laser Screen -->
+                    <StackPanel Grid.Row="0" Margin="40,0,40,16">
+                        <!-- Curved Cinema Laser Bar -->
+                        <Border Height="6" CornerRadius="3" Margin="24,0,24,2">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="#0006B6D4" Offset="0.0"/>
+                                    <GradientStop Color="#06B6D4" Offset="0.25"/>
+                                    <GradientStop Color="#FFFFFF" Offset="0.5"/>
+                                    <GradientStop Color="#06B6D4" Offset="0.75"/>
+                                    <GradientStop Color="#0006B6D4" Offset="1.0"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                        </Border>
+
+                        <!-- Hologram Light Beam -->
+                        <Border Height="24" Margin="36,0,36,6" CornerRadius="0,0,16,16">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                    <GradientStop Color="#2A06B6D4" Offset="0.0"/>
+                                    <GradientStop Color="#088B5CF6" Offset="0.6"/>
+                                    <GradientStop Color="#00070A12" Offset="1.0"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                        </Border>
+
+                        <TextBlock Text="✦ MÀN HÌNH CHIẾU LASER IMAX 4K ✦" FontSize="11" FontWeight="Bold" Foreground="#38BDF8" HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- 40 SEATS MATRIX (5 ROWS x 8 COLUMNS) -->
+                    <Border Grid.Row="1" Background="#111319" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="10" Padding="20" VerticalAlignment="Center">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30"/> <!-- Row labels A..E -->
+                                <ColumnDefinition Width="*"/>  <!-- 5x8 Matrix -->
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Row Labels A, B, C, D, E -->
+                            <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,6,10,6">
+                                <TextBlock Text="A" FontSize="14" FontWeight="Bold" Foreground="{StaticResource TextMuted}" Height="46" VerticalAlignment="Center" TextAlignment="Center"/>
+                                <TextBlock Text="B" FontSize="14" FontWeight="Bold" Foreground="{StaticResource TextMuted}" Height="46" VerticalAlignment="Center" TextAlignment="Center"/>
+                                <TextBlock Text="C" FontSize="14" FontWeight="Bold" Foreground="{StaticResource AccentGold}" Height="46" VerticalAlignment="Center" TextAlignment="Center"/>
+                                <TextBlock Text="D" FontSize="14" FontWeight="Bold" Foreground="{StaticResource AccentGold}" Height="46" VerticalAlignment="Center" TextAlignment="Center"/>
+                                <TextBlock Text="E" FontSize="14" FontWeight="Bold" Foreground="{StaticResource AccentGold}" Height="46" VerticalAlignment="Center" TextAlignment="Center"/>
+                            </StackPanel>
+
+                            <!-- Seats Grid: 5 rows x 8 cols -->
+                            <UniformGrid x:Name="ugSeats" Grid.Column="1" Rows="5" Columns="8" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <!-- Populated dynamically from C# -->
+                            </UniformGrid>
+                        </Grid>
+                    </Border>
+
+                    <!-- SEAT LEGEND BAR (Khớp 100% màu sắc và ký hiệu với sơ đồ ghế thực tế) -->
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,18,0,0">
+                        <!-- Legend Standard -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,24,0" VerticalAlignment="Center">
+                            <Border Width="22" Height="22" CornerRadius="5" Background="#131B2E" BorderBrush="#2A3B60" BorderThickness="1.5" Margin="0,0,8,0">
+                                <TextBlock Text="A1" FontSize="9" FontWeight="Bold" Foreground="#E2E8F0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <TextBlock Text="Ghế Thường (A-B)" FontSize="12" Foreground="{StaticResource TextSecondary}" VerticalAlignment="Center"/>
+                        </StackPanel>
+
+                        <!-- Legend VIP -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,24,0" VerticalAlignment="Center">
+                            <Border Width="22" Height="22" CornerRadius="5" Background="#2A1F10" BorderBrush="#F59E0B" BorderThickness="1.5" Margin="0,0,8,0">
+                                <TextBlock Text="C1" FontSize="9" FontWeight="Bold" Foreground="#F59E0B" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <TextBlock Text="Ghế VIP (C-E: +15k)" FontSize="12" Foreground="#F59E0B" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                        </StackPanel>
+
+                        <!-- Legend Selected -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,24,0" VerticalAlignment="Center">
+                            <Border Width="22" Height="22" CornerRadius="5" Background="#15803D" BorderBrush="#4ADE80" BorderThickness="1.5" Margin="0,0,8,0">
+                                <TextBlock Text="✓" FontSize="11" FontWeight="Black" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <TextBlock Text="Đang chọn" FontSize="12" Foreground="#4ADE80" FontWeight="Bold" VerticalAlignment="Center"/>
+                        </StackPanel>
+
+                        <!-- Legend Sold -->
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Border Width="22" Height="22" CornerRadius="5" Background="#2D1215" BorderBrush="#7F1D1D" BorderThickness="1.5" Margin="0,0,8,0">
+                                <TextBlock Text="✕" FontSize="11" FontWeight="Bold" Foreground="#EF4444" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <TextBlock Text="Đã có người đặt" FontSize="12" Foreground="#EF4444" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- BOTTOM STICKY ACTION BAR -->
+        <Border Grid.Row="2" Background="{StaticResource SurfaceDark}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="0,1,0,0" Padding="28,14">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>    <!-- Selected Seats & Calculation -->
+                    <ColumnDefinition Width="Auto"/> <!-- Next Button -->
+                </Grid.ColumnDefinitions>
+
+                <!-- Left Summary -->
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <TextBlock Text="Ghế đã chọn: " FontSize="13" Foreground="{StaticResource TextSecondary}"/>
+                        <TextBlock x:Name="txtSelectedSeatsList" Text="Chưa chọn ghế nào" FontSize="13" FontWeight="Bold" Foreground="White"/>
+                        <TextBlock x:Name="txtSeatCount" Text=" (0/8 ghế)" FontSize="12" Foreground="{StaticResource TextMuted}" Margin="6,0,0,0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Tổng tiền ghế: " FontSize="14" Foreground="{StaticResource TextSecondary}"/>
+                        <TextBlock x:Name="txtTotalSeatPrice" Text="0 đ" FontSize="18" FontWeight="Black" Foreground="{StaticResource AccentGold}"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Right Action Button -->
+                <Button x:Name="btnProceedToCheckout" Grid.Column="1" Content="TIẾP TỤC: CHỌN BẮP NƯỚC &amp; THANH TOÁN  ➔" Style="{StaticResource PrimaryBtnStyle}" Height="48" Click="BtnProceedToCheckout_Click"/>
+            </Grid>
+        </Border>
+    </Grid>
     </Grid>
 </Window>

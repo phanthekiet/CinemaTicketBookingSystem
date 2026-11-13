@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace CinemaTicketBookingSystem.Entities;
@@ -16,6 +16,8 @@ public partial class Booking
     public decimal TotalAmount { get; set; }
 
     public string QrcodeString { get; set; } = null!;
+
+    public string? PaymentMethod { get; set; } = "VNPAY";
 
     public bool IsCheckedIn { get; set; }
 

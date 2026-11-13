@@ -1,12 +1,221 @@
-﻿<Window x:Class="CinemaTicketBookingSystem.Views.TicketQRWindow"
+<Window x:Class="CinemaTicketBookingSystem.Views.TicketQRWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CinemaTicketBookingSystem.Views"
         mc:Ignorable="d"
-        Title="TicketQRWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="KPID CINEMA - Vé Điện Tử &amp; Mã QR" 
+        Height="780" Width="840"
+        WindowStartupLocation="CenterScreen"
+        Background="#0E1015"
+        Foreground="#F3F4F6"
+        FontFamily="{StaticResource AppFont}"
+        ResizeMode="CanMinimize">
+
+    <Window.Resources>
+        <!-- Palette Tokens -->
+        <SolidColorBrush x:Key="BgDark" Color="#0E1015"/>
+        <SolidColorBrush x:Key="SurfaceDark" Color="#161922"/>
+        <SolidColorBrush x:Key="SurfaceCard" Color="#1C202C"/>
+        <SolidColorBrush x:Key="BorderQuiet" Color="#2B3142"/>
+        <SolidColorBrush x:Key="BorderLight" Color="#3E465E"/>
+        <SolidColorBrush x:Key="AccentRed" Color="#E50914"/>
+        <SolidColorBrush x:Key="AccentRedHover" Color="#F41824"/>
+        <SolidColorBrush x:Key="AccentGold" Color="#F5A623"/>
+        <SolidColorBrush x:Key="TextSecondary" Color="#9CA3AF"/>
+        <SolidColorBrush x:Key="TextMuted" Color="#6B7280"/>
+
+        <!-- Primary Action Button Style -->
+        <Style x:Key="PrimaryBtnStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource AccentRed}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="18,11"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource AccentRedHover}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#C00711"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Ghost Button Style -->
+        <Style x:Key="GhostBtnStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="16,10"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderQuiet}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#1C202C"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource BorderLight}"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="#070A12">
+        <!-- Galaxy Deep Space Background -->
+        <Image Source="/Assets/galaxy_bg.jpg" Stretch="UniformToFill" Opacity="0.18" IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        <Grid Margin="24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/> <!-- Title & Notice -->
+                <RowDefinition Height="*"/>    <!-- TicketCard Visual -->
+                <RowDefinition Height="Auto"/> <!-- Action Buttons -->
+            </Grid.RowDefinitions>
+
+        <!-- Top Notice -->
+        <StackPanel Grid.Row="0" HorizontalAlignment="Center" Margin="0,0,0,16">
+            <TextBlock Text="VÉ ĐIỆN TỬ XÁC NHẬN ĐẶT CHỖ" FontSize="20" FontWeight="Black" Foreground="White" HorizontalAlignment="Center"/>
+            <TextBlock Text="Vui lòng lưu lại hoặc xuất vé ra file để nhân viên soát vé quét mã trước khi vào rạp." FontSize="12" Foreground="{StaticResource TextSecondary}" HorizontalAlignment="Center" Margin="0,4,0,0"/>
+        </StackPanel>
+
+        <!-- TICKET CARD (PrintVisual Target) -->
+        <Border x:Name="TicketCard" Grid.Row="1" Background="#0E1424" BorderBrush="#2A3C64" BorderThickness="1.5" CornerRadius="16" MaxWidth="680" VerticalAlignment="Center" ClipToBounds="True">
+            <Border.Effect>
+                <DropShadowEffect Color="#06B6D4" BlurRadius="24" ShadowDepth="0" Opacity="0.2"/>
+            </Border.Effect>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/> <!-- Ticket Header -->
+                    <RowDefinition Height="Auto"/> <!-- Movie & Details Section -->
+                    <RowDefinition Height="Auto"/> <!-- Perforated Divider Line with Cutouts -->
+                    <RowDefinition Height="Auto"/> <!-- QR Code & Check-in Status -->
+                </Grid.RowDefinitions>
+
+                <!-- Ticket Header -->
+                <Border Grid.Row="0" Background="#0A0E1A" BorderBrush="#1E2B47" BorderThickness="0,0,0,1" Padding="24,14">
+                    <Grid>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Border Width="40" Height="40" CornerRadius="8" Background="#131B2E" Margin="0,0,12,0" BorderBrush="#2E4069" BorderThickness="1.5">
+                                <Image Source="/Assets/logo.png" Stretch="Uniform" Margin="3"/>
+                            </Border>
+                            <StackPanel VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="KPID" FontFamily="{StaticResource BrandFont}" FontWeight="Bold" FontSize="24" Foreground="{StaticResource AccentRed}" Margin="0,0,5,0"/>
+                                    <TextBlock Text="CINEMA" FontFamily="{StaticResource BrandFont}" FontWeight="Bold" FontSize="24" Foreground="White"/>
+                                </StackPanel>
+                                <TextBlock Text="VIP CINEMA PASS • GALAXY EXPERIENCE" FontSize="9" Foreground="#38BDF8" FontWeight="Bold"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- Ticket Status Badge -->
+                        <Border x:Name="bdrTicketStatus" Background="#14532D" CornerRadius="14" Padding="14,6" HorizontalAlignment="Right" VerticalAlignment="Center">
+                            <TextBlock x:Name="txtTicketStatus" Text="● HỢP LỆ (CHƯA SOÁT VÉ)" FontSize="11" FontWeight="Bold" Foreground="#86EFAC"/>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- Movie & Details Section -->
+                <Grid Grid.Row="1" Margin="28,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/> <!-- Movie Poster Thumbnail -->
+                        <ColumnDefinition Width="*"/>    <!-- Ticket Details -->
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Poster -->
+                    <Border Grid.Column="0" Width="110" Height="155" CornerRadius="10" Background="#131B2E" BorderBrush="#1E2B47" BorderThickness="1" Margin="0,0,24,0" ClipToBounds="True">
+                        <Image x:Name="imgPoster" Stretch="UniformToFill"/>
+                    </Border>
+
+                    <!-- Details Table -->
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock x:Name="txtMovieTitle" Text="TÊN PHIM ĐIỆN ẢNH" FontSize="20" FontWeight="Black" Foreground="White" Margin="0,0,0,10" TextWrapping="Wrap"/>
+                        
+                        <Grid Margin="0,3">
+                            <TextBlock Text="Suất chiếu:" FontSize="13" Foreground="{StaticResource TextSecondary}"/>
+                            <TextBlock x:Name="txtShowtime" Text="19:30 • 28/10/2026" FontSize="13" FontWeight="Bold" Foreground="White" HorizontalAlignment="Right"/>
+                        </Grid>
+                        <Grid Margin="0,3">
+                            <TextBlock Text="Phòng chiếu:" FontSize="13" Foreground="{StaticResource TextSecondary}"/>
+                            <TextBlock x:Name="txtRoom" Text="Phòng 01 (Laser Cinema)" FontSize="13" FontWeight="Bold" Foreground="White" HorizontalAlignment="Right"/>
+                        </Grid>
+                        <Grid Margin="0,3">
+                            <TextBlock Text="Ghế ngồi:" FontSize="13" Foreground="{StaticResource TextSecondary}"/>
+                            <TextBlock x:Name="txtSeats" Text="C4, C5 (Ghế VIP)" FontSize="14" FontWeight="Black" Foreground="{StaticResource AccentGold}" HorizontalAlignment="Right"/>
+                        </Grid>
+                        <Grid Margin="0,3">
+                            <TextBlock Text="Bắp nước:" FontSize="13" Foreground="{StaticResource TextSecondary}"/>
+                            <TextBlock x:Name="txtFoods" Text="Combo Bắp Nước (x1)" FontSize="12" Foreground="{StaticResource TextSecondary}" HorizontalAlignment="Right"/>
+                        </Grid>
+                        <Grid Margin="0,3">
+                            <TextBlock Text="Khách hàng:" FontSize="13" Foreground="{StaticResource TextSecondary}"/>
+                            <TextBlock x:Name="txtCustomer" Text="Nguyễn Văn A • 0912345678" FontSize="12" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Right"/>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Perforated Divider Line with Cutout Ticket Half-Circles -->
+                <Grid Grid.Row="2" Height="20">
+                    <!-- Left Cutout Circle -->
+                    <Ellipse Width="20" Height="20" Fill="#070A12" HorizontalAlignment="Left" Margin="-10,0,0,0"/>
+                    <!-- Right Cutout Circle -->
+                    <Ellipse Width="20" Height="20" Fill="#070A12" HorizontalAlignment="Right" Margin="0,0,-10,0"/>
+                    <!-- Dashed Perforation Line -->
+                    <Line X1="20" Y1="10" X2="660" Y2="10" Stroke="#1E2B47" StrokeDashArray="4 4" StrokeThickness="1.5"/>
+                </Grid>
+
+                <!-- QR Code & Verification Section -->
+                <Border Grid.Row="3" Background="#0A0E1A" Padding="24,18">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>    <!-- Text & Booking Code -->
+                            <ColumnDefinition Width="Auto"/> <!-- QR Code Graphic -->
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Left Info -->
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <TextBlock Text="MÃ ĐẶT VÉ ĐIỆN TỬ" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextMuted}"/>
+                            <TextBlock x:Name="txtBookingCode" Text="KPID-A8B9C0D1" FontSize="20" FontWeight="Black" Foreground="{StaticResource AccentRed}" Margin="0,2,0,6"/>
+                            <TextBlock Text="Tổng thanh toán:" FontSize="11" Foreground="{StaticResource TextMuted}"/>
+                            <TextBlock x:Name="txtTotalAmount" Text="190.000 đ" FontSize="16" FontWeight="Black" Foreground="{StaticResource AccentGold}"/>
+                            <TextBlock Text="* Vui lòng xuất trình mã QR này tại cửa phòng chiếu." FontSize="11" Foreground="{StaticResource TextMuted}" Margin="0,8,0,0"/>
+                        </StackPanel>
+
+                        <!-- QR Code Image -->
+                        <Border Grid.Column="1" Background="White" CornerRadius="8" Padding="6" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1">
+                            <Image x:Name="imgQRCode" Width="130" Height="130" Stretch="Uniform"/>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- ACTION BUTTONS -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+            <Button x:Name="btnPrintTicket" Content="🖨️ In Vé / Lưu PDF" Style="{StaticResource GhostBtnStyle}" Width="180" Height="44" Click="BtnPrintTicket_Click" Margin="0,0,16,0"/>
+            <Button x:Name="btnBackHome" Content="🏠 Về Trang Chủ" Style="{StaticResource PrimaryBtnStyle}" Width="180" Height="44" Click="BtnBackHome_Click"/>
+        </StackPanel>
+    </Grid>
     </Grid>
 </Window>

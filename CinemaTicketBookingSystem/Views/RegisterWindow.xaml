@@ -1,12 +1,318 @@
-﻿<Window x:Class="CinemaTicketBookingSystem.Views.RegisterWindow"
+<Window x:Class="CinemaTicketBookingSystem.Views.RegisterWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CinemaTicketBookingSystem.Views"
         mc:Ignorable="d"
-        Title="RegisterWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="KPID CINEMA - Đăng Ký Tài Khoản" 
+        Height="700" Width="1020"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize"
+        Background="#0E1015"
+        Foreground="#F3F4F6"
+        FontFamily="{StaticResource AppFont}">
+
+    <Window.Resources>
+        <!-- Colors -->
+        <SolidColorBrush x:Key="BgDark" Color="#070A12"/>
+        <SolidColorBrush x:Key="SurfaceDark" Color="#0D1220"/>
+        <SolidColorBrush x:Key="SurfaceCard" Color="#131B2E"/>
+        <SolidColorBrush x:Key="BorderQuiet" Color="#1E2B47"/>
+        <SolidColorBrush x:Key="BorderLight" Color="#2A3B60"/>
+        <SolidColorBrush x:Key="AccentRed" Color="#E50914"/>
+        <SolidColorBrush x:Key="AccentRedHover" Color="#F41824"/>
+        <SolidColorBrush x:Key="AccentGold" Color="#F59E0B"/>
+        <SolidColorBrush x:Key="AccentCyan" Color="#06B6D4"/>
+        <SolidColorBrush x:Key="TextSecondary" Color="#94A3B8"/>
+        <SolidColorBrush x:Key="TextMuted" Color="#64748B"/>
+
+        <!-- Primary Action Button Style -->
+        <Style x:Key="PrimaryBtnStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource AccentRed}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="16,11"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource AccentRedHover}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#C00711"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Ghost Button Style -->
+        <Style x:Key="GhostBtnStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="14,10"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderQuiet}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#1C202C"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource BorderLight}"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="{StaticResource BgDark}">
+        <!-- Galaxy Background Layer -->
+        <Image Source="/Assets/galaxy_bg.jpg" Stretch="UniformToFill" Opacity="0.18" IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        <Grid Margin="18">
+            <Border Background="{StaticResource SurfaceDark}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="14" ClipToBounds="True">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="420"/> <!-- Left Brand & Perks Panel -->
+                    <ColumnDefinition Width="*"/>   <!-- Right Registration Form Panel -->
+                </Grid.ColumnDefinitions>
+
+                <!-- LEFT CINEMA PERKS PANEL -->
+                <Grid Grid.Column="0">
+                    <!-- Background Poster / Visual -->
+                    <Image Source="/Assets/slider3.png" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                    <!-- Darkening Cinematic Gradient Overlay -->
+                    <Border>
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#F20E1015" Offset="0.0"/>
+                                <GradientStop Color="#D80E1015" Offset="0.5"/>
+                                <GradientStop Color="#F40E1015" Offset="1.0"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+
+                    <!-- Left Content -->
+                    <Grid Margin="32">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/> <!-- Brand Header -->
+                            <RowDefinition Height="*"/>    <!-- VIP Perks List -->
+                            <RowDefinition Height="Auto"/> <!-- Security & Trust Notice -->
+                        </Grid.RowDefinitions>
+
+                        <!-- Brand Header: Logo + KPID CINEMA -->
+                        <StackPanel Grid.Row="0">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,8">
+                                <Border Width="56" Height="56" CornerRadius="12" Background="#111319" Margin="0,0,14,0" BorderBrush="#2E4069" BorderThickness="1.5">
+                                    <Image Source="/Assets/logo.png" Stretch="Uniform" Margin="4"/>
+                                </Border>
+                                <StackPanel VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="KPID" FontFamily="{StaticResource BrandFont}" FontWeight="Bold" FontSize="36" Foreground="{StaticResource AccentRed}" Margin="0,0,6,0"/>
+                                        <TextBlock Text="CINEMA" FontFamily="{StaticResource BrandFont}" FontWeight="Bold" FontSize="36" Foreground="White"/>
+                                    </StackPanel>
+                                    <TextBlock Text="ĐẶC QUYỀN HỘI VIÊN ĐIỆN ẢNH" FontSize="11" Foreground="{StaticResource AccentGold}" FontWeight="Bold"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- Perks List -->
+                        <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="0,16">
+                            <!-- Perk 1 -->
+                            <Border Background="#24000000" BorderBrush="#30FFFFFF" BorderThickness="1" CornerRadius="10" Padding="14,12" Margin="0,0,0,10">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="🎁" FontSize="18" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock Text="Quà Tặng Chào Mừng" FontWeight="Bold" FontSize="13" Foreground="White"/>
+                                        <TextBlock Text="Tặng ngay 01 bắp ngọt + 01 nước ngọt cho thành viên mới" FontSize="11" Foreground="{StaticResource TextSecondary}" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Perk 2 -->
+                            <Border Background="#24000000" BorderBrush="#30FFFFFF" BorderThickness="1" CornerRadius="10" Padding="14,12" Margin="0,0,0,10">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="💳" FontSize="18" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock Text="Tích Lũy Điểm Đến 10%" FontWeight="Bold" FontSize="13" Foreground="White"/>
+                                        <TextBlock Text="Quy đổi điểm thưởng vé xem phim và combo bắp nước" FontSize="11" Foreground="{StaticResource TextSecondary}" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Perk 3 -->
+                            <Border Background="#24000000" BorderBrush="#30FFFFFF" BorderThickness="1" CornerRadius="10" Padding="14,12" Margin="0,0,0,10">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="👑" FontSize="18" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock Text="Đặt Chỗ Sớm &amp; Ghế VIP" FontWeight="Bold" FontSize="13" Foreground="White"/>
+                                        <TextBlock Text="Ưu tiên giữ chỗ các suất chiếu bom tấn hot nhất" FontSize="11" Foreground="{StaticResource TextSecondary}" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Perk 4 -->
+                            <Border Background="#24000000" BorderBrush="#30FFFFFF" BorderThickness="1" CornerRadius="10" Padding="14,12">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="🎟️" FontSize="18" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock Text="Thứ 4 Vui Vẻ - Movie Day" FontWeight="Bold" FontSize="13" Foreground="White"/>
+                                        <TextBlock Text="Đồng giá vé chỉ từ 50.000đ mọi khung giờ chiếu" FontSize="11" Foreground="{StaticResource TextSecondary}" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+
+                        <!-- Footer Trust / Security Note -->
+                        <Border Grid.Row="2" Background="#15FFFFFF" CornerRadius="8" Padding="12,10">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="🔒" FontSize="14" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                <TextBlock Text="Thông tin cá nhân được bảo mật an toàn 100% theo tiêu chuẩn quốc tế." FontSize="11" Foreground="{StaticResource TextSecondary}" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Grid>
+
+                <!-- RIGHT REGISTRATION FORM PANEL -->
+                <Grid Grid.Column="1" Background="{StaticResource SurfaceDark}">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel Margin="44,30,44,30">
+                            <!-- Title & Subtitle -->
+                            <TextBlock Text="TẠO TÀI KHOẢN MỚI" FontSize="24" FontWeight="Black" Foreground="White" Margin="0,0,0,6"/>
+                            <TextBlock Text="Gia nhập cộng đồng người yêu điện ảnh KPID CINEMA trong 30 giây." FontSize="13" Foreground="{StaticResource TextSecondary}" Margin="0,0,0,18"/>
+
+                            <!-- Error Alert Banner -->
+                            <Border x:Name="bdrError" Background="#281A1C" BorderBrush="#80E50914" BorderThickness="1" CornerRadius="8" Padding="14,10" Margin="0,0,0,16" Visibility="Collapsed">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="⚠️" FontSize="14" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                    <TextBlock x:Name="txtErrorMsg" Text="Vui lòng điền đầy đủ các thông tin bắt buộc!" FontSize="12" Foreground="#FFAAA6" FontWeight="Medium" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Success Alert Banner -->
+                            <Border x:Name="bdrSuccess" Background="#132B1C" BorderBrush="#802ECC71" BorderThickness="1" CornerRadius="8" Padding="14,10" Margin="0,0,0,16" Visibility="Collapsed">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="✅" FontSize="14" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                    <TextBlock x:Name="txtSuccessMsg" Text="Đăng ký tài khoản thành công! Đang chuyển hướng..." FontSize="12" Foreground="#A9DFBF" FontWeight="Medium" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Field 1: Full Name -->
+                            <TextBlock Text="HỌ VÀ TÊN" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextSecondary}" Margin="0,0,0,6"/>
+                            <Border Background="{StaticResource SurfaceCard}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="8" Height="42" Margin="0,0,0,14">
+                                <Grid Margin="12,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="👤" FontSize="14" VerticalAlignment="Center" Foreground="{StaticResource TextMuted}" Margin="0,0,10,0"/>
+                                    <TextBox x:Name="txtFullName" Grid.Column="1" Background="Transparent" BorderThickness="0" Foreground="White" VerticalAlignment="Center" FontSize="13" KeyDown="TxtField_KeyDown"/>
+                                </Grid>
+                            </Border>
+
+                            <!-- Field 2: Username -->
+                            <TextBlock Text="TÊN ĐĂNG NHẬP" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextSecondary}" Margin="0,0,0,6"/>
+                            <Border Background="{StaticResource SurfaceCard}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="8" Height="42" Margin="0,0,0,14">
+                                <Grid Margin="12,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="🏷️" FontSize="14" VerticalAlignment="Center" Foreground="{StaticResource TextMuted}" Margin="0,0,10,0"/>
+                                    <TextBox x:Name="txtUsername" Grid.Column="1" Background="Transparent" BorderThickness="0" Foreground="White" VerticalAlignment="Center" FontSize="13" KeyDown="TxtField_KeyDown"/>
+                                </Grid>
+                            </Border>
+
+                            <!-- Field 3: Phone Number -->
+                            <TextBlock Text="SỐ ĐIỆN THOẠI (10 CHỮ SỐ)" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextSecondary}" Margin="0,0,0,6"/>
+                            <Border Background="{StaticResource SurfaceCard}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="8" Height="42" Margin="0,0,0,14">
+                                <Grid Margin="12,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="📞" FontSize="14" VerticalAlignment="Center" Foreground="{StaticResource TextMuted}" Margin="0,0,10,0"/>
+                                    <TextBox x:Name="txtPhone" Grid.Column="1" Background="Transparent" BorderThickness="0" Foreground="White" VerticalAlignment="Center" FontSize="13" KeyDown="TxtField_KeyDown"/>
+                                </Grid>
+                            </Border>
+
+                            <!-- Row for Passwords -->
+                            <Grid Margin="0,0,0,14">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="14"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Field 4: Password -->
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="MẬT KHẨU" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextSecondary}" Margin="0,0,0,6"/>
+                                    <Border Background="{StaticResource SurfaceCard}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="8" Height="42">
+                                        <Grid Margin="12,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="🔒" FontSize="14" VerticalAlignment="Center" Foreground="{StaticResource TextMuted}" Margin="0,0,8,0"/>
+                                            <PasswordBox x:Name="txtPassword" Grid.Column="1" Background="Transparent" BorderThickness="0" Foreground="White" VerticalAlignment="Center" FontSize="13" KeyDown="TxtField_KeyDown"/>
+                                        </Grid>
+                                    </Border>
+                                </StackPanel>
+
+                                <!-- Field 5: Confirm Password -->
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="XÁC NHẬN MẬT KHẨU" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextSecondary}" Margin="0,0,0,6"/>
+                                    <Border Background="{StaticResource SurfaceCard}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="8" Height="42">
+                                        <Grid Margin="12,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="🔐" FontSize="14" VerticalAlignment="Center" Foreground="{StaticResource TextMuted}" Margin="0,0,8,0"/>
+                                            <PasswordBox x:Name="txtConfirmPassword" Grid.Column="1" Background="Transparent" BorderThickness="0" Foreground="White" VerticalAlignment="Center" FontSize="13" KeyDown="TxtField_KeyDown"/>
+                                        </Grid>
+                                    </Border>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Agreement Checkbox -->
+                            <CheckBox x:Name="chkAgree" Margin="0,0,0,20" IsChecked="True" VerticalAlignment="Center">
+                                <TextBlock Text="Tôi đồng ý với Điều khoản sử dụng và Chính sách hội viên KPID CINEMA" Foreground="{StaticResource TextSecondary}" FontSize="12" TextWrapping="Wrap"/>
+                            </CheckBox>
+
+                            <!-- Submit Button -->
+                            <Button x:Name="btnRegister" Content="ĐĂNG KÝ THÀNH VIÊN" Style="{StaticResource PrimaryBtnStyle}" Height="46" Click="BtnRegister_Click" Margin="0,0,0,14" IsDefault="True"/>
+
+                            <!-- Back to Login Navigation -->
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,4,0,0">
+                                <TextBlock Text="Đã có tài khoản KPID CINEMA?" Foreground="{StaticResource TextSecondary}" FontSize="13" VerticalAlignment="Center"/>
+                                <Button x:Name="btnOpenLogin" Content="Đăng nhập ngay" Background="Transparent" BorderThickness="0" Foreground="{StaticResource AccentRed}" FontWeight="Bold" FontSize="13" Cursor="Hand" Margin="6,0,0,0" Click="BtnOpenLogin_Click"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Grid>
+        </Border>
+        </Grid>
     </Grid>
 </Window>

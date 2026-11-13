@@ -1,0 +1,264 @@
+<Window x:Class="CinemaTicketBookingSystem.Views.CustomerHistoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CinemaTicketBookingSystem.Views"
+        mc:Ignorable="d"
+        Title="KPID CINEMA - Lịch Sử Đặt Vé &amp; Tra Cứu Vé Điện Tử" 
+        Height="700" Width="1160"
+        MinHeight="550" MinWidth="900"
+        WindowStartupLocation="CenterScreen"
+        Background="#0E1015"
+        Foreground="#F3F4F6"
+        FontFamily="{StaticResource AppFont}">
+
+    <Window.Resources>
+        <!-- Palette Tokens -->
+        <SolidColorBrush x:Key="BgDark" Color="#070A12"/>
+        <SolidColorBrush x:Key="SurfaceDark" Color="#0D1220"/>
+        <SolidColorBrush x:Key="SurfaceCard" Color="#131B2E"/>
+        <SolidColorBrush x:Key="BorderQuiet" Color="#1E2B47"/>
+        <SolidColorBrush x:Key="BorderLight" Color="#2A3B60"/>
+        <SolidColorBrush x:Key="AccentRed" Color="#E50914"/>
+        <SolidColorBrush x:Key="AccentRedHover" Color="#F41824"/>
+        <SolidColorBrush x:Key="AccentGold" Color="#F59E0B"/>
+        <SolidColorBrush x:Key="AccentCyan" Color="#06B6D4"/>
+        <SolidColorBrush x:Key="TextSecondary" Color="#94A3B8"/>
+        <SolidColorBrush x:Key="TextMuted" Color="#64748B"/>
+
+        <!-- Primary Action Button Style -->
+        <Style x:Key="PrimaryBtnStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource AccentRed}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="16,10"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource AccentRedHover}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#C00711"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="#374151"/>
+                                <Setter Property="Foreground" Value="#9CA3AF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Ghost Button Style -->
+        <Style x:Key="GhostBtnStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="14,8"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderQuiet}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#1C202C"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource BorderLight}"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Custom Dark DataGrid Style -->
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="#161922"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderQuiet}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="RowBackground" Value="#161922"/>
+            <Setter Property="AlternatingRowBackground" Value="#1A1E29"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource BorderQuiet}"/>
+            <Setter Property="VerticalGridLinesBrush" Value="Transparent"/>
+            <Setter Property="RowHeight" Value="42"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+            <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+        </Style>
+
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#111319"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderQuiet}"/>
+        </Style>
+
+        <Style TargetType="DataGridCell">
+            <Setter Property="Padding" Value="12,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#2A1B20"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="{StaticResource BgDark}">
+        <!-- Galaxy Background Layer -->
+        <Image Source="/Assets/galaxy_bg.jpg" Stretch="UniformToFill" Opacity="0.14" IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/> <!-- Header -->
+                <RowDefinition Height="Auto"/> <!-- Search & Lookup Bar -->
+                <RowDefinition Height="*"/>    <!-- DataGrid of Bookings -->
+                <RowDefinition Height="Auto"/> <!-- Bottom Actions -->
+            </Grid.RowDefinitions>
+
+            <!-- TOP BAR -->
+            <Border Grid.Row="0" Background="{StaticResource SurfaceDark}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="0,0,0,1" Padding="24,14">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Border Width="38" Height="38" CornerRadius="8" Background="#111319" Margin="0,0,10,0" BorderBrush="#2E4069" BorderThickness="1.5">
+                            <Image Source="/Assets/logo.png" Stretch="Uniform" Margin="3"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="KPID" FontFamily="{StaticResource BrandFont}" FontWeight="Bold" FontSize="24" Foreground="{StaticResource AccentRed}" Margin="0,0,5,0"/>
+                                <TextBlock Text="CINEMA" FontFamily="{StaticResource BrandFont}" FontWeight="Bold" FontSize="24" Foreground="White"/>
+                            </StackPanel>
+                            <TextBlock Text="LỊCH SỬ ĐẶT VÉ &amp; TRA CỨU VÉ ĐIỆN TỬ" FontSize="10" Foreground="{StaticResource AccentGold}" FontWeight="Bold"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
+                        <TextBlock x:Name="txtCustomerHeader" Text="Tài khoản: Khách hàng" FontSize="12" FontWeight="SemiBold" Foreground="White" HorizontalAlignment="Right"/>
+                        <TextBlock x:Name="txtTotalBookingsCount" Text="Tổng cộng: 0 đơn vé" FontSize="11" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Right" Margin="0,2,0,0"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- SEARCH / LOOKUP BAR (Tra cứu vé bằng SĐT cho Khách vãng lai & Thành viên) -->
+            <Border Grid.Row="1" Background="{StaticResource SurfaceCard}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="10" Margin="24,14,24,0" Padding="14,10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,14,0">
+                        <TextBlock Text="🔍" FontSize="14" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                        <TextBlock Text="Tra cứu vé:" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource TextSecondary}" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Search Input with Placeholder Watermark -->
+                    <Border Grid.Column="1" Background="#0A0D14" BorderBrush="{StaticResource BorderLight}" BorderThickness="1" CornerRadius="6" Height="38">
+                        <Grid>
+                            <TextBox x:Name="txtSearchPhoneOrCode" Background="Transparent" Foreground="White" BorderThickness="0" VerticalAlignment="Center" Padding="12,0" FontSize="13" TextChanged="TxtSearchPhoneOrCode_TextChanged" KeyDown="TxtSearchPhoneOrCode_KeyDown"/>
+                            <TextBlock x:Name="txtSearchPlaceholder" Text="Mời nhập số điện thoại để truy xuất vé..." Foreground="{StaticResource TextMuted}" VerticalAlignment="Center" Margin="12,0" FontSize="13" IsHitTestVisible="False"/>
+                        </Grid>
+                    </Border>
+
+                    <Button x:Name="btnSearchGuestTickets" Grid.Column="2" Content="🔍 Tra Cứu Vé" Style="{StaticResource PrimaryBtnStyle}" Height="38" Padding="18,0" Margin="10,0,0,0" Click="BtnSearchGuestTickets_Click"/>
+                    <Button x:Name="btnClearSearch" Grid.Column="3" Content="✕ Xóa lọc" Style="{StaticResource GhostBtnStyle}" Height="38" Padding="12,0" Margin="6,0,0,0" Click="BtnClearSearch_Click"/>
+                </Grid>
+            </Border>
+
+            <!-- MAIN TABLE -->
+            <Border Grid.Row="2" Margin="24,14,24,16" Background="{StaticResource SurfaceDark}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="12" ClipToBounds="True">
+                <Grid>
+                    <DataGrid x:Name="dgBookings" 
+                              AutoGenerateColumns="False" 
+                              CanUserResizeColumns="True" 
+                              HeadersVisibility="Column" 
+                              HorizontalScrollBarVisibility="Auto" 
+                              VerticalScrollBarVisibility="Auto" 
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                              ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                              ScrollViewer.CanContentScroll="True"
+                              SelectionChanged="DgBookings_SelectionChanged" 
+                              MouseDoubleClick="DgBookings_MouseDoubleClick">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="MÃ VÉ" Binding="{Binding QrcodeString}" Width="145"/>
+                            <DataGridTextColumn Header="TÊN PHIM" Binding="{Binding MovieTitle}" Width="240"/>
+                            <DataGridTextColumn Header="NGƯỜI ĐẶT / SĐT" Binding="{Binding BuyerInfo}" Width="180"/>
+                            <DataGridTextColumn Header="PHÒNG" Binding="{Binding RoomName}" Width="100"/>
+                            <DataGridTextColumn Header="SUẤT CHIẾU" Binding="{Binding ShowtimeString}" Width="145"/>
+                            <DataGridTextColumn Header="DANH SÁCH GHẾ" Binding="{Binding SeatsString}" Width="120"/>
+                            <DataGridTextColumn Header="TỔNG TIỀN" Binding="{Binding TotalAmountString}" Width="110"/>
+                            <DataGridTextColumn Header="NGÀY ĐẶT" Binding="{Binding BookingDateString}" Width="135"/>
+                            <DataGridTemplateColumn Header="TRẠNG THÁI" Width="130">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border Background="{Binding StatusBg}" CornerRadius="10" Padding="8,4" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding StatusText}" Foreground="{Binding StatusFg}" FontSize="11" FontWeight="Bold"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!-- Empty State Message -->
+                    <StackPanel x:Name="pnlEmptyState" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+                        <TextBlock Text="🎟️" FontSize="44" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                        <TextBlock x:Name="txtEmptyTitle" Text="Mời nhập số điện thoại để truy xuất vé" FontSize="14" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                        <TextBlock x:Name="txtEmptyDesc" Text="Nhập số điện thoại quý khách đã dùng khi đặt vé để tra cứu mã QR và vé điện tử." FontSize="12" Foreground="{StaticResource TextSecondary}" HorizontalAlignment="Center" Margin="0,6,0,0"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- BOTTOM ACTIONS -->
+            <Border Grid.Row="3" Background="{StaticResource SurfaceDark}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="0,1,0,0" Padding="24,14">
+                <Grid>
+                    <TextBlock Text="* Nhấp đúp vào đơn vé hoặc bấm 'Xem Lại Mã QR' để mở mã vé điện tử." FontSize="12" Foreground="{StaticResource TextMuted}" VerticalAlignment="Center"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="btnRefresh" Content="🔄 Làm mới" Style="{StaticResource GhostBtnStyle}" Margin="0,0,12,0" Click="BtnRefresh_Click"/>
+                        <Button x:Name="btnViewQR" Content="🎟️ Xem Lại Mã QR" Style="{StaticResource PrimaryBtnStyle}" IsEnabled="False" Margin="0,0,12,0" Click="BtnViewQR_Click"/>
+                        <Button x:Name="btnClose" Content="Đóng" Style="{StaticResource GhostBtnStyle}" Click="BtnClose_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

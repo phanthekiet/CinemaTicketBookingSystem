@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -68,6 +68,7 @@ public partial class CinemaManagementDbContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("QRCodeString");
             entity.Property(e => e.TotalAmount).HasColumnType("decimal(18, 0)");
+            entity.Property(e => e.PaymentMethod).HasMaxLength(50).HasDefaultValue("VNPAY");
 
             entity.HasOne(d => d.Showtime).WithMany(p => p.Bookings)
                 .HasForeignKey(d => d.ShowtimeId)
@@ -180,6 +181,8 @@ public partial class CinemaManagementDbContext : DbContext
             entity.HasKey(e => e.TicketId).HasName("PK__Ticket__712CC607815F6B2B");
 
             entity.ToTable("Ticket");
+
+            entity.HasIndex(e => new { e.ShowtimeId, e.SeatCode }, "UQ_Ticket_Showtime_Seat").IsUnique();
 
             entity.Property(e => e.SeatCode)
                 .HasMaxLength(10)

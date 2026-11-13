@@ -1,12 +1,583 @@
-﻿<Window x:Class="CinemaTicketBookingSystem.Views.AdminReportWindow"
+<Window x:Class="CinemaTicketBookingSystem.Views.AdminReportWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CinemaTicketBookingSystem.Views"
         mc:Ignorable="d"
-        Title="AdminReportWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="KPID CINEMA - Soát Vé, Thống Kê &amp; Quản Lý Người Dùng" 
+        Height="840" Width="1350"
+        MinHeight="720" MinWidth="1100"
+        WindowStartupLocation="CenterScreen"
+        Background="#0E1015"
+        Foreground="#F3F4F6"
+        FontFamily="{StaticResource AppFont}">
+
+    <Window.Resources>
+        <!-- Palette Tokens -->
+        <SolidColorBrush x:Key="BgDark" Color="#070A12"/>
+        <SolidColorBrush x:Key="SurfaceDark" Color="#0D1220"/>
+        <SolidColorBrush x:Key="SurfaceCard" Color="#131B2E"/>
+        <SolidColorBrush x:Key="BorderQuiet" Color="#1E2B47"/>
+        <SolidColorBrush x:Key="BorderLight" Color="#2A3B60"/>
+        <SolidColorBrush x:Key="AccentRed" Color="#E50914"/>
+        <SolidColorBrush x:Key="AccentRedHover" Color="#F41824"/>
+        <SolidColorBrush x:Key="AccentGold" Color="#F59E0B"/>
+        <SolidColorBrush x:Key="AccentCyan" Color="#06B6D4"/>
+        <SolidColorBrush x:Key="TextSecondary" Color="#94A3B8"/>
+        <SolidColorBrush x:Key="TextMuted" Color="#64748B"/>
+
+        <!-- Primary Action Button Style -->
+        <Style x:Key="PrimaryBtnStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource AccentRed}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="16,10"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource AccentRedHover}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#C00711"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="#374151"/>
+                                <Setter Property="Foreground" Value="#9CA3AF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Ghost Button Style -->
+        <Style x:Key="GhostBtnStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="14,8"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderQuiet}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#1C202C"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource BorderLight}"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Nav Tab Button Style -->
+        <Style x:Key="NavBtnStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#1C202C"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Active Nav Tab Button Style -->
+        <Style x:Key="ActiveNavBtnStyle" TargetType="Button" BasedOn="{StaticResource NavBtnStyle}">
+            <Setter Property="Background" Value="#251214"/>
+            <Setter Property="Foreground" Value="{StaticResource AccentRed}"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <!-- DataGrid Style -->
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="#161922"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderQuiet}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="RowBackground" Value="#161922"/>
+            <Setter Property="AlternatingRowBackground" Value="#1A1E29"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource BorderQuiet}"/>
+            <Setter Property="VerticalGridLinesBrush" Value="Transparent"/>
+            <Setter Property="RowHeight" Value="42"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+        </Style>
+
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#111319"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderQuiet}"/>
+        </Style>
+
+        <Style TargetType="DataGridCell">
+            <Setter Property="Padding" Value="12,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#2A1B20"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="{StaticResource BgDark}">
+        <!-- Galaxy Cosmic Background Layer -->
+        <Image Source="/Assets/galaxy_bg.jpg" Stretch="UniformToFill" Opacity="0.14" IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/> <!-- Global Admin Header -->
+                <RowDefinition Height="*"/>    <!-- Module Content Tabs -->
+            </Grid.RowDefinitions>
+
+        <!-- 1. TOP GLOBAL ADMIN HEADER -->
+        <Border Grid.Row="0" Background="{StaticResource SurfaceDark}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="0,0,0,1" Padding="20,12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Brand -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Width="38" Height="38" CornerRadius="8" Background="#111319" Margin="0,0,10,0" BorderBrush="#2E4069" BorderThickness="1.5">
+                        <Image Source="/Assets/logo.png" Stretch="Uniform" Margin="3"/>
+                    </Border>
+                    <StackPanel VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="KPID" FontFamily="{StaticResource BrandFont}" FontWeight="Bold" FontSize="24" Foreground="{StaticResource AccentRed}" Margin="0,0,5,0"/>
+                            <TextBlock Text="CINEMA" FontFamily="{StaticResource BrandFont}" FontWeight="Bold" FontSize="24" Foreground="White"/>
+                        </StackPanel>
+                        <TextBlock Text="HỆ THỐNG QUẢN TRỊ" FontSize="10" Foreground="{StaticResource AccentGold}" FontWeight="Bold"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Nav Links -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button Content="🎬 Phim &amp; Thể loại" Style="{StaticResource NavBtnStyle}" Margin="4,0" Click="NavToMovies_Click"/>
+                    <Button Content="🏛️ Phòng &amp; Suất chiếu" Style="{StaticResource NavBtnStyle}" Margin="4,0" Click="NavToShowtimes_Click"/>
+                    <Button Content="🍿 Bắp nước" Style="{StaticResource NavBtnStyle}" Margin="4,0" Click="NavToFood_Click"/>
+                    <Button Content="📊 Soát vé &amp; Thống kê" Style="{StaticResource ActiveNavBtnStyle}" Margin="4,0"/>
+                </StackPanel>
+
+                <!-- Current User & Exit -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <StackPanel VerticalAlignment="Center" Margin="0,0,16,0">
+                        <TextBlock x:Name="txtAdminName" Text="Admin: Quản trị viên" FontSize="12" FontWeight="Bold" Foreground="White" HorizontalAlignment="Right"/>
+                        <TextBlock Text="Phân quyền: Toàn quyền quản trị" FontSize="10" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Right"/>
+                    </StackPanel>
+                    <Button Content="Về Trang Khách" Style="{StaticResource GhostBtnStyle}" Margin="0,0,8,0" Click="BtnCustomerHome_Click"/>
+                    <Button Content="Đăng xuất" Style="{StaticResource GhostBtnStyle}" Click="BtnLogout_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- 2. MAIN CONTENT TABS -->
+        <TabControl Grid.Row="1" Background="Transparent" BorderThickness="0" Margin="20,14">
+            <!-- TAB 1: SOÁT VÉ (QR CHECK-IN) -->
+            <TabItem Header="  🎟️ SOÁT VÉ (QR CHECK-IN)  " FontSize="13" FontWeight="Bold">
+                <Grid Margin="0,16,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="460"/> <!-- Left: Search code / Input -->
+                        <ColumnDefinition Width="24"/>  <!-- Gap -->
+                        <ColumnDefinition Width="*"/>   <!-- Right: Ticket Check Result Card -->
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Left: Code Input & Search -->
+                    <Border Grid.Column="0" Background="{StaticResource SurfaceDark}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="12" Padding="24" VerticalAlignment="Top">
+                        <StackPanel>
+                            <TextBlock Text="KIỂM TRA &amp; SOÁT VÉ KHÁCH HÀNG" FontSize="16" FontWeight="Black" Foreground="White" Margin="0,0,0,6"/>
+                            <TextBlock Text="Nhập mã vé hoặc dùng máy quét mã QR để kiểm tra tính hợp lệ của vé." FontSize="12" Foreground="{StaticResource TextSecondary}" Margin="0,0,0,20" TextWrapping="Wrap"/>
+
+                            <!-- Input Box -->
+                            <TextBlock Text="MÃ VÉ (QR CODE STRING) *" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextSecondary}" Margin="0,0,0,6"/>
+                            <Border Background="{StaticResource SurfaceCard}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="8" Height="44" Margin="0,0,0,16">
+                                <Grid Margin="12,0">
+                                    <TextBlock Text="🏷️" FontSize="14" Foreground="{StaticResource TextMuted}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                    <TextBox x:Name="txtCheckInCode" Margin="24,0,0,0" Background="Transparent" BorderThickness="0" Foreground="White" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" KeyDown="TxtCheckInCode_KeyDown"/>
+                                </Grid>
+                            </Border>
+
+                            <!-- Check Button -->
+                            <Button Content="🔍 KIỂM TRA MÃ VÉ" Style="{StaticResource PrimaryBtnStyle}" Height="44" Margin="0,0,0,16" Click="BtnCheckTicket_Click"/>
+
+                            <!-- Quick Sample buttons for testing -->
+                            <TextBlock Text="VÉ MỚI NHẤT TRONG HỆ THỐNG:" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextMuted}" Margin="0,10,0,6"/>
+                            <StackPanel x:Name="spRecentTickets">
+                                <!-- Populated dynamically -->
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Right: Ticket Validation Result Card -->
+                    <Border Grid.Column="2" Background="{StaticResource SurfaceDark}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="12" Padding="28">
+                        <Grid>
+                            <!-- Prompt when no ticket searched -->
+                            <StackPanel x:Name="pnlNoTicket" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Text="🎟️" FontSize="48" HorizontalAlignment="Center" Margin="0,0,0,12"/>
+                                <TextBlock Text="Sẵn sàng soát vé" FontSize="16" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Nhập mã vé vào khung bên trái và bấm 'Kiểm Tra Mã Vé' để hiển thị thông tin chi tiết." FontSize="12" Foreground="{StaticResource TextSecondary}" HorizontalAlignment="Center" Margin="0,4,0,0"/>
+                            </StackPanel>
+
+                            <!-- Ticket Result Container -->
+                            <Grid x:Name="pnlTicketResult" Visibility="Collapsed">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/> <!-- Status Banner -->
+                                    <RowDefinition Height="*"/>    <!-- Ticket Content -->
+                                    <RowDefinition Height="Auto"/> <!-- Confirm Check-in Button -->
+                                </Grid.RowDefinitions>
+
+                                <!-- Status Banner -->
+                                <Border x:Name="bdrCheckInBanner" Grid.Row="0" CornerRadius="8" Padding="16,12" Margin="0,0,0,20">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock x:Name="txtCheckInIcon" Text="✅" FontSize="20" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                                        <StackPanel VerticalAlignment="Center">
+                                            <TextBlock x:Name="txtCheckInTitle" Text="VÉ HỢP LỆ - CHƯA SỬ DỤNG" FontSize="14" FontWeight="Black"/>
+                                            <TextBlock x:Name="txtCheckInSub" Text="Khách hàng chưa vào phòng chiếu." FontSize="12"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Ticket Details Box -->
+                                <Border Grid.Row="1" Background="{StaticResource SurfaceCard}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="10" Padding="20">
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock x:Name="txtResultMovie" Text="TÊN PHIM CHIẾU" FontSize="20" FontWeight="Black" Foreground="White" Margin="0,0,0,14"/>
+
+                                        <Grid Margin="0,4">
+                                            <TextBlock Text="Mã định danh vé:" FontSize="13" Foreground="{StaticResource TextSecondary}"/>
+                                            <TextBlock x:Name="txtResultCode" Text="KPID-XXXXX" FontSize="14" FontWeight="Bold" Foreground="{StaticResource AccentRed}" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                        <Grid Margin="0,4">
+                                            <TextBlock Text="Khách hàng:" FontSize="13" Foreground="{StaticResource TextSecondary}"/>
+                                            <TextBlock x:Name="txtResultCustomer" Text="Nguyễn Văn A (0912345678)" FontSize="13" FontWeight="Bold" Foreground="White" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                        <Grid Margin="0,4">
+                                            <TextBlock Text="Phòng chiếu:" FontSize="13" Foreground="{StaticResource TextSecondary}"/>
+                                            <TextBlock x:Name="txtResultRoom" Text="Phòng 01" FontSize="13" FontWeight="Bold" Foreground="White" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                        <Grid Margin="0,4">
+                                            <TextBlock Text="Suất chiếu:" FontSize="13" Foreground="{StaticResource TextSecondary}"/>
+                                            <TextBlock x:Name="txtResultShowtime" Text="19:30 • 28/10/2026" FontSize="13" FontWeight="Bold" Foreground="White" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                        <Grid Margin="0,4">
+                                            <TextBlock Text="Danh sách ghế:" FontSize="13" Foreground="{StaticResource TextSecondary}"/>
+                                            <TextBlock x:Name="txtResultSeats" Text="C4, C5 (VIP)" FontSize="15" FontWeight="Black" Foreground="{StaticResource AccentGold}" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                        <Grid Margin="0,4">
+                                            <TextBlock Text="Bắp nước đặt kèm:" FontSize="13" Foreground="{StaticResource TextSecondary}"/>
+                                            <TextBlock x:Name="txtResultFoods" Text="Không chọn" FontSize="13" Foreground="White" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                        <Grid Margin="0,4">
+                                            <TextBlock Text="Tổng tiền đơn vé:" FontSize="13" Foreground="{StaticResource TextSecondary}"/>
+                                            <TextBlock x:Name="txtResultAmount" Text="190.000 đ" FontSize="16" FontWeight="Black" Foreground="{StaticResource AccentGold}" HorizontalAlignment="Right"/>
+                                        </Grid>
+
+                                        <Grid Margin="0,4">
+                                            <TextBlock Text="Phương thức thanh toán:" FontSize="13" Foreground="{StaticResource TextSecondary}" VerticalAlignment="Center"/>
+                                            <Border x:Name="bdrResultPaymentBadge" Background="#1E3A8A" CornerRadius="12" Padding="10,4" HorizontalAlignment="Right">
+                                                <TextBlock x:Name="txtResultPaymentMethod" Text="💳 VNPAY (Đã thanh toán)" FontSize="12" FontWeight="Bold" Foreground="#93C5FD"/>
+                                            </Border>
+                                        </Grid>
+
+                                        <!-- Alert box when Cash payment -->
+                                        <Border x:Name="bdrCashAlert" Background="#2B1A09" BorderBrush="{StaticResource AccentGold}" BorderThickness="1.5" CornerRadius="8" Padding="14,10" Margin="0,12,0,0" Visibility="Collapsed">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="💵" FontSize="26" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                    <TextBlock Text="ĐƠN VÉ THANH TOÁN TIỀN MẶT TẠI QUẦY!" FontSize="12" FontWeight="Black" Foreground="{StaticResource AccentGold}"/>
+                                                    <TextBlock x:Name="txtCashAlertDetail" Text="Nhân viên vui lòng thu đúng số tiền trước khi xác nhận soát vé!" FontSize="11" Foreground="#FDE68A" Margin="0,2,0,0"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Confirm Check-in Button -->
+                                <Button x:Name="btnConfirmCheckIn" Grid.Row="2" Content="✓ XÁC NHẬN SOÁT VÉ (CHO VÀO PHÒNG)" Style="{StaticResource PrimaryBtnStyle}" Height="48" Margin="0,20,0,0" Click="BtnConfirmCheckIn_Click"/>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <!-- TAB 2: THỐNG KÊ DOANH THU & TOP PHIM -->
+            <TabItem Header="  📊 BÁO CÁO DOANH THU &amp; TOP PHIM  " FontSize="13" FontWeight="Bold">
+                <Grid Margin="0,16,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/> <!-- Date Filter Bar -->
+                        <RowDefinition Height="Auto"/> <!-- KPI Summary Cards -->
+                        <RowDefinition Height="*"/>    <!-- Top Movies Table -->
+                    </Grid.RowDefinitions>
+
+                    <!-- Filter Bar -->
+                    <Border Grid.Row="0" Background="{StaticResource SurfaceDark}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="10" Padding="18,12" Margin="0,0,0,16">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/> <!-- From -->
+                                <ColumnDefinition Width="Auto"/> <!-- To -->
+                                <ColumnDefinition Width="Auto"/> <!-- Filter Button -->
+                                <ColumnDefinition Width="*"/>    <!-- Quick presets -->
+                            </Grid.ColumnDefinitions>
+
+                            <!-- From Date -->
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,16,0">
+                                <TextBlock Text="Từ ngày: " FontSize="12" FontWeight="Bold" Foreground="{StaticResource TextSecondary}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                <DatePicker x:Name="dpFromDate" Height="36" Width="140"/>
+                            </StackPanel>
+
+                            <!-- To Date -->
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,16,0">
+                                <TextBlock Text="Đến ngày: " FontSize="12" FontWeight="Bold" Foreground="{StaticResource TextSecondary}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                <DatePicker x:Name="dpToDate" Height="36" Width="140"/>
+                            </StackPanel>
+
+                            <!-- Run Report Button -->
+                            <Button Grid.Column="2" Content="📈 Thống kê" Style="{StaticResource PrimaryBtnStyle}" Height="36" Click="BtnRunReport_Click"/>
+
+                            <!-- Quick Presets -->
+                            <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                <Button Content="Hôm nay" Style="{StaticResource GhostBtnStyle}" Margin="0,0,8,0" Click="BtnReportToday_Click"/>
+                                <Button Content="Tháng này" Style="{StaticResource GhostBtnStyle}" Margin="0,0,8,0" Click="BtnReportThisMonth_Click"/>
+                                <Button Content="Toàn thời gian" Style="{StaticResource GhostBtnStyle}" Margin="0,0,8,0" Click="BtnReportAllTime_Click"/>
+                                <Button Content="🔄 Reset Dữ Liệu Vé" Style="{StaticResource GhostBtnStyle}" Foreground="{StaticResource AccentRed}" Margin="8,0,0,0" ToolTip="Xóa trắng toàn bộ vé, lịch sử đặt vé &amp; giải phóng ghế để bắt đầu lại hệ thống mới" Click="BtnResetBookingData_Click"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- KPI Cards Row -->
+                    <Grid Grid.Row="1" Margin="0,0,0,18">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="16"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="16"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Total Revenue -->
+                        <Border Grid.Column="0" Background="{StaticResource SurfaceDark}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="12" Padding="20">
+                            <StackPanel>
+                                <TextBlock Text="TỔNG DOANH THU" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextMuted}"/>
+                                <TextBlock x:Name="txtKpiRevenue" Text="0 đ" FontSize="26" FontWeight="Black" Foreground="{StaticResource AccentGold}" Margin="0,6,0,0"/>
+                                <TextBlock Text="Bao gồm vé và bắp nước" FontSize="11" Foreground="{StaticResource TextSecondary}" Margin="0,4,0,0"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Total Tickets Sold -->
+                        <Border Grid.Column="2" Background="{StaticResource SurfaceDark}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="12" Padding="20">
+                            <StackPanel>
+                                <TextBlock Text="TỔNG SỐ VÉ BÁN RA" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextMuted}"/>
+                                <TextBlock x:Name="txtKpiTickets" Text="0 vé" FontSize="26" FontWeight="Black" Foreground="White" Margin="0,6,0,0"/>
+                                <TextBlock Text="Ghế tiêu chuẩn &amp; ghế VIP" FontSize="11" Foreground="{StaticResource TextSecondary}" Margin="0,4,0,0"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Total Orders -->
+                        <Border Grid.Column="4" Background="{StaticResource SurfaceDark}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="12" Padding="20">
+                            <StackPanel>
+                                <TextBlock Text="TỔNG SỐ ĐƠN ĐẶT CHỖ" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextMuted}"/>
+                                <TextBlock x:Name="txtKpiOrders" Text="0 đơn" FontSize="26" FontWeight="Black" Foreground="#86EFAC" Margin="0,6,0,0"/>
+                                <TextBlock Text="Giao dịch thành công" FontSize="11" Foreground="{StaticResource TextSecondary}" Margin="0,4,0,0"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <!-- Top Movies Table -->
+                    <Border Grid.Row="2" Background="{StaticResource SurfaceDark}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="12" Padding="20">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="BẢNG XẾP HẠNG TOP PHIM CÓ DOANH THU CAO NHẤT" FontSize="14" FontWeight="Bold" Foreground="White" Margin="0,0,0,12"/>
+                            <DataGrid x:Name="dgTopMovies" Grid.Row="1">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="HẠNG" Binding="{Binding Rank}" Width="70"/>
+                                    <DataGridTextColumn Header="TÊN BỘ PHIM" Binding="{Binding MovieTitle}" Width="2*"/>
+                                    <DataGridTextColumn Header="SỐ VÉ BÁN RA" Binding="{Binding TicketsCount}" Width="140"/>
+                                    <DataGridTextColumn Header="DOANH THU" Binding="{Binding RevenueString}" Width="160"/>
+                                    <DataGridTextColumn Header="TỶ TRỌNG (%)" Binding="{Binding PercentageString}" Width="120"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <!-- TAB 3: QUẢN LÝ TÀI KHOẢN (USER CRUD) -->
+            <TabItem Header="  👥 QUẢN LÝ TÀI KHOẢN NGƯỜI DÙNG  " FontSize="13" FontWeight="Bold">
+                <Grid Margin="0,16,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>   <!-- Left: DataGrid & Search -->
+                        <ColumnDefinition Width="20"/>  <!-- Gap -->
+                        <ColumnDefinition Width="420"/> <!-- Right: CRUD Form -->
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Left: User List -->
+                    <Border Grid.Column="0" Background="{StaticResource SurfaceDark}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="12" Padding="20">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/> <!-- Search Box -->
+                                <RowDefinition Height="*"/>    <!-- DataGrid -->
+                                <RowDefinition Height="Auto"/> <!-- Stats -->
+                            </Grid.RowDefinitions>
+
+                            <!-- Search & Role Filter Bar -->
+                            <Grid Grid.Row="0" Margin="0,0,0,14">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="210"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0" Background="{StaticResource SurfaceCard}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="8" Height="40">
+                                    <Grid Margin="12,0">
+                                        <TextBlock Text="🔍" FontSize="13" Foreground="{StaticResource TextMuted}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                        <TextBox x:Name="txtSearchUser" Margin="24,0,0,0" Background="Transparent" BorderThickness="0" Foreground="White" VerticalAlignment="Center" FontSize="13" TextChanged="TxtSearchUser_TextChanged"/>
+                                    </Grid>
+                                </Border>
+                                <ComboBox x:Name="cbFilterRole" Grid.Column="2" Height="40" SelectionChanged="CbFilterRole_SelectionChanged">
+                                    <ComboBoxItem Content="-- Tất cả vai trò --" IsSelected="True"/>
+                                    <ComboBoxItem Content="Staff (Nhân viên soát vé)"/>
+                                    <ComboBoxItem Content="Admin (Quản trị viên)"/>
+                                    <ComboBoxItem Content="Customer (Khách hàng)"/>
+                                </ComboBox>
+                            </Grid>
+
+                            <DataGrid x:Name="dgUsers" Grid.Row="1" SelectionChanged="DgUsers_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="ID" Binding="{Binding UserId}" Width="50"/>
+                                    <DataGridTextColumn Header="TÀI KHOẢN" Binding="{Binding Username}" Width="130"/>
+                                    <DataGridTextColumn Header="HỌ VÀ TÊN" Binding="{Binding FullName}" Width="170"/>
+                                    <DataGridTextColumn Header="SỐ ĐIỆN THOẠI" Binding="{Binding Phone}" Width="130"/>
+                                    <DataGridTextColumn Header="VAI TRÒ" Binding="{Binding Role}" Width="110"/>
+                                    <DataGridTemplateColumn Header="TRẠNG THÁI" Width="120">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border Background="{Binding StatusBg}" CornerRadius="10" Padding="8,4" HorizontalAlignment="Center">
+                                                    <TextBlock Text="{Binding StatusText}" Foreground="{Binding StatusFg}" FontSize="11" FontWeight="Bold"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <TextBlock x:Name="txtUserStats" Grid.Row="2" Text="Tổng số: 0 người dùng" FontSize="12" Foreground="{StaticResource TextMuted}" Margin="0,10,0,0"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Right: User CRUD Form -->
+                    <Border Grid.Column="2" Background="{StaticResource SurfaceDark}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="12" Padding="22" VerticalAlignment="Top">
+                        <StackPanel>
+                            <TextBlock Text="THÔNG TIN TÀI KHOẢN" FontSize="15" FontWeight="Bold" Foreground="White" Margin="0,0,0,14"/>
+
+                            <!-- Full Name -->
+                            <TextBlock Text="HỌ VÀ TÊN *" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextSecondary}" Margin="0,0,0,6"/>
+                            <Border Background="{StaticResource SurfaceCard}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="8" Height="40" Margin="0,0,0,12">
+                                <TextBox x:Name="txtUserFullName" Background="Transparent" BorderThickness="0" Foreground="White" VerticalAlignment="Center" Margin="12,0" FontSize="13"/>
+                            </Border>
+
+                            <!-- Username -->
+                            <TextBlock Text="TÊN ĐĂNG NHẬP *" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextSecondary}" Margin="0,0,0,6"/>
+                            <Border Background="{StaticResource SurfaceCard}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="8" Height="40" Margin="0,0,0,12">
+                                <TextBox x:Name="txtUserUsername" Background="Transparent" BorderThickness="0" Foreground="White" VerticalAlignment="Center" Margin="12,0" FontSize="13"/>
+                            </Border>
+
+                            <!-- Phone -->
+                            <TextBlock Text="SỐ ĐIỆN THOẠI (10 SỐ) *" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextSecondary}" Margin="0,0,0,6"/>
+                            <Border Background="{StaticResource SurfaceCard}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="8" Height="40" Margin="0,0,0,12">
+                                <TextBox x:Name="txtUserPhone" Background="Transparent" BorderThickness="0" Foreground="White" VerticalAlignment="Center" Margin="12,0" FontSize="13"/>
+                            </Border>
+
+                            <!-- Password -->
+                            <TextBlock Text="MẬT KHẨU *" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextSecondary}" Margin="0,0,0,6"/>
+                            <Border Background="{StaticResource SurfaceCard}" BorderBrush="{StaticResource BorderQuiet}" BorderThickness="1" CornerRadius="8" Height="40" Margin="0,0,0,12">
+                                <TextBox x:Name="txtUserPassword" Background="Transparent" BorderThickness="0" Foreground="White" VerticalAlignment="Center" Margin="12,0" FontSize="13"/>
+                            </Border>
+
+                            <!-- Role ComboBox -->
+                            <TextBlock Text="VAI TRÒ TRUY CẬP *" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextSecondary}" Margin="0,0,0,6"/>
+                            <ComboBox x:Name="cbUserRole" Height="40" Margin="0,0,0,14">
+                                <ComboBoxItem Content="Customer (Khách hàng xem phim)" IsSelected="True"/>
+                                <ComboBoxItem Content="Staff (Nhân viên soát vé rạp)"/>
+                                <ComboBoxItem Content="Admin (Quản trị viên rạp phim)"/>
+                            </ComboBox>
+
+                            <!-- Status CheckBox -->
+                            <CheckBox x:Name="chkUserStatus" Content="Đang hoạt động (Kích hoạt)" Foreground="White" FontSize="13" IsChecked="True" Margin="0,0,0,18"/>
+
+                            <!-- Action Buttons -->
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Button Content="＋ Thêm Mới" Style="{StaticResource PrimaryBtnStyle}" Height="40" Click="BtnAddUser_Click"/>
+                                <Button Grid.Column="2" Content="💾 Lưu Sửa" Style="{StaticResource GhostBtnStyle}" Height="40" Click="BtnUpdateUser_Click"/>
+                            </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Button Content="🔒 Khóa / Mở Khóa" Style="{StaticResource GhostBtnStyle}" Height="36" Click="BtnToggleStatusUser_Click"/>
+                                <Button Grid.Column="2" Content="🧹 Làm Mới" Style="{StaticResource GhostBtnStyle}" Height="36" Click="BtnClearUserForm_Click"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        </Grid>
     </Grid>
 </Window>
