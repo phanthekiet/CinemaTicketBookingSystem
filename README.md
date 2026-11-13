@@ -26,8 +26,8 @@ Dự án được xây dựng với mục tiêu mang đến trải nghiệm đi�
 
 ### 🌟 2.1. Màn hình Trang chủ (Customer Home)
 *Khám phá danh sách phim đang chiếu / sắp chiếu, lọc theo thể loại, tìm kiếm không dấu và xem thông tin chi tiết.*
+<img width="1286" height="843" alt="CustomerHome" src="https://github.com/user-attachments/assets/44258aff-87c0-425e-b8f5-bb94fe3db334" />
 
-<img width="1286" height="843" alt="CustomerHome" src="https://github.com/user-attachments/assets/59c1ab75-e5e4-4f8f-b3bd-c2510243e5ce" />
 
 
 ---
@@ -35,22 +35,22 @@ Dự án được xây dựng với mục tiêu mang đến trải nghiệm đi�
 ### 🎟️ 2.2. Màn hình Chọn suất chiếu & Sơ đồ ghế (Seat Selection)
 *Lựa chọn ngày chiếu, suất chiếu theo từng loại phòng (Standard, IMAX, VIP), sơ đồ ghế tương tác trực quan kèm quy định chống chừa ghế lẻ và giới hạn tối đa 8 vé.*
 
-<img width="1169" height="773" alt="SeatSelection" src="https://github.com/user-attachments/assets/049b0f36-dd38-4b9c-a5d9-31a2c79a73b7" />
 
+<img width="1169" height="773" alt="SeatSelection" src="https://github.com/user-attachments/assets/16860d18-e503-46bb-9bfd-7c18c4590853" />
 
 ---
 
 ### 💳 2.3. Màn hình Chọn bắp nước & Thanh toán (Checkout)
 *Tùy chọn combo bắp nước kèm kiểm tra tồn kho tức thì, hỗ trợ thanh toán linh hoạt qua Tiền mặt, quét mã VietQR tự động hoặc cổng thanh toán trực tuyến VNPAY Sandbox.*
-<img width="814" height="764" alt="Checkout" src="https://github.com/user-attachments/assets/5c129e0b-15a4-4bfc-bd8f-56a56f87703f" />
 
+<img width="1186" height="792" alt="Checkout" src="https://github.com/user-attachments/assets/feb278a5-7a8c-4252-85c0-001bb191ad21" />
 
 ---
 
 ### 📱 2.4. Vé xem phim điện tử & Mã QR Code (Electronic Ticket)
 *Vé điện tử tạo tự động kèm mã QR Code độ phân giải cao phục vụ soát vé tại rạp, tích hợp tính năng In vé vật lý.*
+<img width="814" height="764" alt="ElectronicTicket " src="https://github.com/user-attachments/assets/3c1fe2b0-3783-44b4-bfd8-7e2cf1cc36e1" />
 
-<img width="1318" height="815" alt="ElectronicTicket" src="https://github.com/user-attachments/assets/555054c8-9356-48a3-8f34-8f5c74004b15" />
 
 
 ---
@@ -58,7 +58,7 @@ Dự án được xây dựng với mục tiêu mang đến trải nghiệm đi�
 ### 🛡️ 2.5. Phân hệ Quản trị (Admin) & Soát vé (Staff)
 *Bảng điều khiển quản lý phim, phòng chiếu, xung đột lịch chiếu, thực đơn bắp nước, báo cáo doanh thu và màn hình kiểm soát vé thời gian thực.*
 
-<img width="1186" height="792" alt="Admin" src="https://github.com/user-attachments/assets/bbf59f6b-6296-465f-84e1-3d448d500c91" />
+<img width="1318" height="815" alt="Admin" src="https://github.com/user-attachments/assets/7364e4b4-5739-4d49-a3f1-19f5ef81aad0" />
 
 
 ---
