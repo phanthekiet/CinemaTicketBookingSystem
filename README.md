@@ -23,55 +23,43 @@ Dự án được xây dựng với mục tiêu mang đến trải nghiệm đi�
 
 ## 📸 2. Giao diện phần mềm (Screenshots)
 
-> 💡 *Hướng dẫn chèn ảnh:* Bạn có thể lưu các file ảnh chụp màn hình vào thư mục `docs/images/` rồi thay thế đường dẫn tương ứng bên dưới.
 
 ### 🌟 2.1. Màn hình Trang chủ (Customer Home)
 *Khám phá danh sách phim đang chiếu / sắp chiếu, lọc theo thể loại, tìm kiếm không dấu và xem thông tin chi tiết.*
 
-<p align="center">
-  <!-- CHÈN HÌNH MÀN HÌNH TRANG CHỦ (HOME) TẠI ĐÂY -->
-  <img src="docs/images/home_screen.png" alt="Màn hình Trang chủ - KPID CINEMA" width="90%"/>
-</p>
+<img width="1286" height="843" alt="CustomerHome" src="https://github.com/user-attachments/assets/59c1ab75-e5e4-4f8f-b3bd-c2510243e5ce" />
+
 
 ---
 
 ### 🎟️ 2.2. Màn hình Chọn suất chiếu & Sơ đồ ghế (Seat Selection)
 *Lựa chọn ngày chiếu, suất chiếu theo từng loại phòng (Standard, IMAX, VIP), sơ đồ ghế tương tác trực quan kèm quy định chống chừa ghế lẻ và giới hạn tối đa 8 vé.*
 
-<p align="center">
-  <!-- CHÈN HÌNH MÀN HÌNH CHỌN GHẾ TẠI ĐÂY -->
-  <img src="docs/images/seat_selection.png" alt="Màn hình Chọn suất chiếu và sơ đồ ghế" width="90%"/>
-</p>
+<img width="1169" height="773" alt="SeatSelection" src="https://github.com/user-attachments/assets/049b0f36-dd38-4b9c-a5d9-31a2c79a73b7" />
+
 
 ---
 
 ### 💳 2.3. Màn hình Chọn bắp nước & Thanh toán (Checkout)
 *Tùy chọn combo bắp nước kèm kiểm tra tồn kho tức thì, hỗ trợ thanh toán linh hoạt qua Tiền mặt, quét mã VietQR tự động hoặc cổng thanh toán trực tuyến VNPAY Sandbox.*
+<img width="814" height="764" alt="Checkout" src="https://github.com/user-attachments/assets/5c129e0b-15a4-4bfc-bd8f-56a56f87703f" />
 
-<p align="center">
-  <!-- CHÈN HÌNH MÀN HÌNH CHECKOUT TẠI ĐÂY -->
-  <img src="docs/images/checkout_screen.png" alt="Màn hình Thanh toán và Bắp nước" width="90%"/>
-</p>
 
 ---
 
 ### 📱 2.4. Vé xem phim điện tử & Mã QR Code (Electronic Ticket)
 *Vé điện tử tạo tự động kèm mã QR Code độ phân giải cao phục vụ soát vé tại rạp, tích hợp tính năng In vé vật lý.*
 
-<p align="center">
-  <!-- CHÈN HÌNH MÀN HÌNH VÉ ĐIỆN TỬ TẠI ĐÂY -->
-  <img src="docs/images/ticket_qr.png" alt="Màn hình Vé điện tử QR Code" width="70%"/>
-</p>
+<img width="1318" height="815" alt="ElectronicTicket" src="https://github.com/user-attachments/assets/555054c8-9356-48a3-8f34-8f5c74004b15" />
+
 
 ---
 
 ### 🛡️ 2.5. Phân hệ Quản trị (Admin) & Soát vé (Staff)
 *Bảng điều khiển quản lý phim, phòng chiếu, xung đột lịch chiếu, thực đơn bắp nước, báo cáo doanh thu và màn hình kiểm soát vé thời gian thực.*
 
-<p align="center">
-  <!-- CHÈN HÌNH MÀN HÌNH QUẢN TRỊ / SOÁT VÉ TẠI ĐÂY -->
-  <img src="docs/images/admin_staff_screen.png" alt="Màn hình Quản trị và Soát vé" width="90%"/>
-</p>
+<img width="1186" height="792" alt="Admin" src="https://github.com/user-attachments/assets/bbf59f6b-6296-465f-84e1-3d448d500c91" />
+
 
 ---
 
