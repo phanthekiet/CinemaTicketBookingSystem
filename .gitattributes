@@ -61,6 +61,6 @@
 #*.PDF   diff=astextplain
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
-*.js linguist-detectable=false
-*.css linguist-detectable=false
-*.html linguist-detectable=false
+*.js linguist-generated=true
+*.css linguist-generated=true
+*.html linguist-generated=true
