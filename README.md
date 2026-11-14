@@ -176,13 +176,7 @@ Dự án được xây dựng với mục tiêu mang đến trải nghiệm đi�
 | **Khách hàng (Customer)** | *Đăng ký mới* | *Tự đặt* | Đặt vé, chọn ghế, lịch sử vé cá nhân |
 | **Khách vãng lai (Guest)** | *Không cần đăng nhập* | — | Bấm *"Tiếp tục với tư cách Khách"* tại màn hình đăng nhập |
 
----
 
-## 👨‍💻 8. Tác giả & Đóng góp
-
-- Dự án phục vụ môn học **PRN212 — Lập trình ứng dụng trên Windows (C# / WPF)**.
-- **Nhóm phát triển KPID CINEMA Team:**
-  - Thành viên thực hiện dự án theo bảng phân công công việc.
 
 ---
 
