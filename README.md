@@ -174,7 +174,7 @@ Dự án được xây dựng với mục tiêu mang đến trải nghiệm đi�
 | **Quản trị viên (Admin)** | `admin` | `123` | Toàn quyền quản trị phim, suất chiếu, bắp nước, báo cáo |
 | **Nhân viên (Staff)** | `staff1` | `123` | Quản lý và soát vé điện tử |
 | **Khách hàng (Customer)** | *Đăng ký mới* | *Tự đặt* | Đặt vé, chọn ghế, lịch sử vé cá nhân |
-| **Khách vãng lai (Guest)** | *Không cần đăng nhập* | — | Bấm *"Tiếp tục với tư cách Khách"* tại màn hình đăng nhập |
+| **Khách vãng lai (Guest)** | *Không cần đăng nhập* | — | Bấm *"Tiếp tục với tư cách Khách"* tại màn hình đăng nhập |         
 
 
 
